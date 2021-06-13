@@ -1,17 +1,20 @@
 // Java implementation for a client
 // Save file as Client.java
 
+import com.google.gson.Gson;
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
-
+import org.una.cacao_servidor.clases.Globales;
+import org.una.cacao_servidor.clases.Transferencia;
 // Client class
 public class Client
 {
 	public static void main(String[] args) throws IOException
 	{
 		try
-		{
+		{       
+                        Gson gson = new Gson();
 			Scanner scn = new Scanner(System.in);
 			
 			// getting localhost ip
@@ -27,8 +30,12 @@ public class Client
 			// the following loop performs the exchange of
 			// information between client and client handler
 			while (true)
-			{
-				System.out.println(dis.readUTF());
+			{       
+				//Deserializar, Json-Objeto
+                                Globales.getInstance().transferencia = gson.fromJson(dis.readUTF(), Transferencia.class);
+				System.out.println("Recibido: " + Globales.getInstance().transferencia.getOperacion() + "|");
+                                
+                                System.out.println("Digite un dato");
 				String tosend = scn.nextLine();
 				dos.writeUTF(tosend);
 				
