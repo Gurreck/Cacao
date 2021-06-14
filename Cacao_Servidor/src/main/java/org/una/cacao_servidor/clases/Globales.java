@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.una.cacao_servidor.clases;
 
-import java.io.Serializable;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,9 +10,10 @@ import java.io.Serializable;
  */
 public class Globales {
     
-    public Transferencia transferencia = new Transferencia();
     private static Globales INSTANCE = null;
-   
+    public Transferencia transferencia = new Transferencia();
+    public List<Socket> listaSockets = new ArrayList<>();
+    
     private static void createInstance() {
         if (INSTANCE == null) {
             synchronized (Globales.class) {

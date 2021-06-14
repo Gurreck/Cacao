@@ -5,7 +5,6 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 import java.net.*;
-import org.una.cacao_servidor.clases.Sockets;
 import org.una.cacao_servidor.clases.Globales;
 
 
@@ -37,7 +36,7 @@ public class servidor implements Serializable
                 System.out.println("Assigning new thread for this client");
 
                 // create a new thread object
-                Sockets.getInstance().listaSockets.add(s);
+                Globales.getInstance().listaSockets.add(s);
 
                 Thread t = new ClientHandler(s, dis, dos);
 
@@ -111,8 +110,7 @@ class ClientHandler extends Thread
 
                         case "Date" :                                
                                 //Serializar, Objeto-Json
-                                System.out.println("shit");
-                                Globales.getInstance().transferencia.Transferencia("PERRRRRRRRRAAAAAAAAAAAA");
+                                Globales.getInstance().transferencia.Transferencia("PRUEBA");
                                 toreturn = gson.toJson(Globales.getInstance().transferencia);
                                 
                                 dos.writeUTF(toreturn);
@@ -121,7 +119,7 @@ class ClientHandler extends Thread
 
                         case "Time" :
                                 toreturn = fortime.format(date);
-                                for (Socket sock : Sockets.getInstance().listaSockets){
+                                for (Socket sock : Globales.getInstance().listaSockets){
                                     DataOutputStream a = new DataOutputStream(sock.getOutputStream());
                                     a.writeUTF(toreturn);
                                 }

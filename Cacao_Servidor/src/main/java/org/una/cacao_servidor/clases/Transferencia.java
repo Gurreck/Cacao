@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.una.cacao_servidor.clases;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -13,11 +10,45 @@ public class Transferencia {
     
     private String operacion;
     
-    public void Transferencia(String _operacion){
-        this.operacion = _operacion;
-    }
+    private ArrayList datosOperacion;
     
-    public String getOperacion(){
+    private Partida partida;
+
+    public void Transferencia() {
+    }
+
+    public void Transferencia(String operacion) {
+        this.operacion = operacion;
+    }
+
+    public void Transferencia(String operacion, ArrayList datosOperacion, Partida partida) {
+        this.operacion = operacion;
+        this.datosOperacion = datosOperacion;
+        this.partida = partida;
+    }
+
+    public void setOperacion(String operacion) {
+        this.operacion = operacion;
+    }
+
+    public void setDatosOperacion(ArrayList datosOperacion) {
+        this.datosOperacion = datosOperacion;
+    }
+
+    public void setPartida(Partida partida) {
+        this.partida = partida;
+    }
+
+    public String getOperacion() {
         return operacion;
     }
+
+    public ArrayList getDatosOperacion() {
+        return datosOperacion;
+    }
+
+    public Partida getPartida() {
+        return partida;
+    }
+   
 }
