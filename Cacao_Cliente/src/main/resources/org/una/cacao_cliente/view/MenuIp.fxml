@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.MenuIpController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="100.0" styleClass="Fondo" stylesheets="@../css/Style.css" StackPane.alignment="CENTER">
+         <children>
+            <Label text="Bienvenido a Cacao" textFill="WHITE">
+               <font>
+                  <Font name="Showcard Gothic" size="50.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="406.0" prefWidth="1200.0">
+               <children>
+                  <Label fx:id="lbl_direccion" text="Dirección IP:" textFill="WHITE">
+                     <font>
+                        <Font name="Showcard Gothic" size="28.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txt_ip" prefHeight="29.0" prefWidth="194.0" />
+               </children>
+            </HBox>
+            <Button fx:id="btn_siguiente" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnSiguienteOnAction" prefHeight="86.0" prefWidth="207.0" style="-fx-background-color: none;">
+               <graphic>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/btn_siguiente.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</StackPane>
