@@ -8,10 +8,10 @@ public class LosetasSelva {
     
     private String tipo;
 
-    public void LosetasSelva() {
+    public LosetasSelva() {
     }
 
-    public void LosetasSelva(String tipo) {
+    public LosetasSelva(String tipo) {
         this.tipo = tipo;
     }
 

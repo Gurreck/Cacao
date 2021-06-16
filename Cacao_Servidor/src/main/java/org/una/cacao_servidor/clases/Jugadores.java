@@ -1,5 +1,6 @@
 package org.una.cacao_servidor.clases;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,11 +18,10 @@ public class Jugadores {
     private int puntosRio;
     private List<LosetasRecolectores> losetasRecolectores;
     
-    public void Jugadores(){
-        
+    public Jugadores(){
     }
 
-    public void Jugadores(String nombre, Date fechaNacimiento, String color,
+    public Jugadores(String nombre, Date fechaNacimiento, String color,
         List<LosetasRecolectores> losetasRecolectores, int cacaos, int monedas, int puntosRio) {
         
         this.nombre = nombre;

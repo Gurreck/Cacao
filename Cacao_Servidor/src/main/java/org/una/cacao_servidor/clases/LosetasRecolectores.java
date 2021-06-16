@@ -13,10 +13,10 @@ public class LosetasRecolectores {
     private int izquierda;
     private int derecha;
 
-    public void LosetasRecolectores() {
+    public LosetasRecolectores() {
     }
 
-    public void LosetasRecolectores(String tipo, String color, int arriba, int abajo, int izquierda, int derecha) {
+    public LosetasRecolectores(String tipo, String color, int arriba, int abajo, int izquierda, int derecha) {
         this.tipo = tipo;
         this.color = color;
         this.arriba = arriba;
