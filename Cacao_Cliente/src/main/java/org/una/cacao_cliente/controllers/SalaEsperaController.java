@@ -12,10 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import org.una.cacao_cliente.utility.FlowController;
 
@@ -24,24 +21,20 @@ import org.una.cacao_cliente.utility.FlowController;
  *
  * @author Daniel
  */
-public class MenuController extends Controller implements Initializable {
+public class SalaEsperaController extends Controller implements Initializable {
 
     @FXML
-    private Label lbl_nombre;
-    @FXML
-    private TextField txt_nombre;
-    @FXML
-    private Label lbl_fecNac;
-    @FXML
-    private DatePicker date_fecNac;
-    @FXML
-    private Label lbl_colores;
-    @FXML
-    private ComboBox<?> combo_color;
-    @FXML
-    private Button btn_jugar;
-    @FXML
     private StackPane root;
+    @FXML
+    private Label lbl_jugador1;
+    @FXML
+    private Button btn_listo;
+    @FXML
+    private Label lbl_jugador2;
+    @FXML
+    private Label lbl_jugador3;
+    @FXML
+    private Label lbl_jugador4;
 
     /**
      * Initializes the controller class.
@@ -60,10 +53,10 @@ public class MenuController extends Controller implements Initializable {
     public Node getRoot() {
         return root;
     }
-
+    
     @FXML
-    private void btnJugarOnAction(ActionEvent event) {
-        FlowController.getInstance().goViewInStage("SalaEspera",getStage());
+    private void btnListoOnAction(ActionEvent event) {
+        FlowController.getInstance().goViewInStage("Juego",getStage());
     }
     
 }

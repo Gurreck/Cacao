@@ -55,11 +55,11 @@
                   <ComboBox fx:id="combo_color" prefHeight="29.0" prefWidth="194.0" styleClass="letraMenu" stylesheets="@../css/Style.css" />
                </children>
             </HBox>
-            <Button fx:id="btn_jugar" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="86.0" prefWidth="207.0" style="-fx-background-color: none;">
+            <Button fx:id="btn_jugar" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnJugarOnAction" prefHeight="86.0" prefWidth="207.0" style="-fx-background-color: none;">
                <graphic>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../../../../Imágenes/btn_jugar.png" />
+                        <Image url="@../img/btn_jugar.png" />
                      </image>
                   </ImageView>
                </graphic>

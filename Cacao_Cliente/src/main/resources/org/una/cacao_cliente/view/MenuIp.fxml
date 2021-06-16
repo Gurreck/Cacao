@@ -26,7 +26,7 @@
                         <Font name="Showcard Gothic" size="28.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txt_ip" prefHeight="29.0" prefWidth="194.0" />
+                  <TextField fx:id="txt_ip" prefHeight="29.0" prefWidth="194.0" styleClass="letraMenu" />
                </children>
             </HBox>
             <Button fx:id="btn_siguiente" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnSiguienteOnAction" prefHeight="86.0" prefWidth="207.0" style="-fx-background-color: none;">

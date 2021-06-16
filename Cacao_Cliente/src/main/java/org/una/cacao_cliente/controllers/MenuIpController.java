@@ -25,13 +25,13 @@ import org.una.cacao_cliente.utility.FlowController;
 public class MenuIpController extends Controller implements Initializable {
 
     @FXML
+    private StackPane root;
+    @FXML
     private Label lbl_direccion;
     @FXML
     private TextField txt_ip;
     @FXML
     private Button btn_siguiente;
-    @FXML
-    private StackPane root;
 
     /**
      * Initializes the controller class.
@@ -55,5 +55,6 @@ public class MenuIpController extends Controller implements Initializable {
     private void btnSiguienteOnAction(ActionEvent event) {
         FlowController.getInstance().goViewInStage("Menu",getStage());
     }
+
     
 }

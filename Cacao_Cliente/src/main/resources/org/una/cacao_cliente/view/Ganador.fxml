@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.GanadorController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="50.0" styleClass="Fondo" stylesheets="@../css/Style.css" StackPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="211.0" prefWidth="1200.0">
+               <children>
+                  <AnchorPane prefHeight="262.0" prefWidth="482.0">
+                     <children>
+                        <Label layoutX="10.0" layoutY="28.0" text="Jugador ganador" textFill="WHITE">
+                           <font>
+                              <Font name="Showcard Gothic" size="50.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_jugadorGanador" layoutX="116.0" layoutY="171.0" styleClass="letraJugadorGanador" />
+                        <Line endX="274.0" endY="1.0" layoutX="203.0" layoutY="217.0" startX="-195.0" startY="2.0" strokeWidth="5.0">
+                           <stroke>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color red="0.44736841320991516" green="0.37073585391044617" blue="0.37073585391044617" />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </LinearGradient>
+                           </stroke>
+                        </Line>
+                        <ImageView fitHeight="102.0" fitWidth="75.0" layoutX="76.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true" rotate="-20.0">
+                           <image>
+                              <Image url="@../img/corona.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="406.0" prefWidth="1200.0" spacing="50.0">
+               <children>
+                  <HBox fx:id="VBox_segundo" spacing="7.0">
+                     <children>
+                        <Label fx:id="lbl_segundo" styleClass="letraJuegoTurno">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></Label>
+                        <ImageView fitHeight="36.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/triste.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="vBox_tercero" spacing="7.0" visible="false">
+                     <children>
+                        <Label fx:id="lbl_tercero" styleClass="letraJuegoTurno">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></Label>
+                        <ImageView fitHeight="36.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/triste.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="vBox_cuarto" spacing="7.0">
+                     <children>
+                        <Label fx:id="lbl_cuarto" styleClass="letraJuegoTurno">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></Label>
+                        <ImageView fitHeight="36.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../img/triste.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefWidth="1200.0" spacing="7.0">
+               <children>
+                  <Button fx:id="btn_volverJugar" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnVolverJugarOnAction" style="-fx-background-color: none;">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/btn_volverJugar.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btn_salir" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnSalirOnAction" style="-fx-background-color: none;">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/btn_salir.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children></HBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

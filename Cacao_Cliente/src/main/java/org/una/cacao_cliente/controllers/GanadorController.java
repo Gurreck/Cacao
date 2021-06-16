@@ -12,10 +12,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import org.una.cacao_cliente.utility.FlowController;
 
@@ -24,24 +22,28 @@ import org.una.cacao_cliente.utility.FlowController;
  *
  * @author Daniel
  */
-public class MenuController extends Controller implements Initializable {
+public class GanadorController extends Controller implements Initializable {
 
     @FXML
-    private Label lbl_nombre;
-    @FXML
-    private TextField txt_nombre;
-    @FXML
-    private Label lbl_fecNac;
-    @FXML
-    private DatePicker date_fecNac;
-    @FXML
-    private Label lbl_colores;
-    @FXML
-    private ComboBox<?> combo_color;
-    @FXML
-    private Button btn_jugar;
-    @FXML
     private StackPane root;
+    @FXML
+    private Label lbl_jugadorGanador;
+    @FXML
+    private HBox VBox_segundo;
+    @FXML
+    private Label lbl_segundo;
+    @FXML
+    private HBox vBox_tercero;
+    @FXML
+    private Label lbl_tercero;
+    @FXML
+    private HBox vBox_cuarto;
+    @FXML
+    private Label lbl_cuarto;
+    @FXML
+    private Button btn_volverJugar;
+    @FXML
+    private Button btn_salir;
 
     /**
      * Initializes the controller class.
@@ -51,19 +53,26 @@ public class MenuController extends Controller implements Initializable {
         // TODO
     }    
 
+
     @Override
     public void initialize() {
-        
+       
     }
 
     @Override
     public Node getRoot() {
-        return root;
+       return root;
     }
 
     @FXML
-    private void btnJugarOnAction(ActionEvent event) {
+    private void btnVolverJugarOnAction(ActionEvent event) {
         FlowController.getInstance().goViewInStage("SalaEspera",getStage());
     }
+
+    @FXML
+    private void btnSalirOnAction(ActionEvent event) {
+        System.exit(0);
+    }
+
     
 }
