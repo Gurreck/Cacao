@@ -5,6 +5,9 @@
  */
 package org.una.cacao_cliente.controllers;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import org.una.cacao_cliente.clases.Comunicacion;
+import org.una.cacao_cliente.clases.Globales;
 import org.una.cacao_cliente.utility.FlowController;
 
 /**
@@ -53,7 +58,22 @@ public class MenuIpController extends Controller implements Initializable {
 
     @FXML
     private void btnSiguienteOnAction(ActionEvent event) {
-        FlowController.getInstance().goViewInStage("Menu",getStage());
+        if(!txt_ip.getText().equals("")){
+            try{
+                Socket s = new Socket(txt_ip.getText(), 5056);
+                Globales.getInstance().comunicacion = new Comunicacion(s, new DataInputStream(s.getInputStream()), new DataOutputStream(s.getOutputStream()));
+
+                FlowController.getInstance().goViewInStage("Menu",getStage());
+
+            }catch(Exception e){
+                System.out.println("Error al conectarse");
+            }
+
+        }else{
+            
+            //CREAR ALERTA DE FALTA INGRESAR INFORMACION
+        
+        }
     }
 
     

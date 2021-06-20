@@ -7,12 +7,11 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.una.cacao_servidor.clases.Globales;
 import org.una.cacao_servidor.clases.Jugadores;
 import org.una.cacao_servidor.clases.Transferencia;
 // Client class
-public class Client
+public class Client1
 {
 	public static void main(String[] args) throws IOException
 	{
@@ -24,7 +23,7 @@ public class Client
 			
 			// getting localhost ip
 			InetAddress ip = InetAddress.getByName("localhost");
-	
+                        Globales.getInstance().fd = false;
 			// establish the connection with server port 5056
 			Socket s = new Socket(ip, 5056);
 	
@@ -32,23 +31,20 @@ public class Client
 			DataInputStream dis = new DataInputStream(s.getInputStream());
 			DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 	
-			// the following loop performs the exchange of
-			// information between client and client handler
                         Thread thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                while(true){
+                                while(!Globales.getInstance().fd){
                                     try {
                                         System.out.println("Recibido: " + dis.readUTF() + "|");
                                     } catch (IOException ex) {
-                                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                                        System.out.println("Error al recibir datos");
                                     }
                                 }
                             }
                         });
                         thread.start();
-                        
-                        // the following loop performs the exchange of
+			// the following loop performs the exchange of
 			// information between client and client handler
 			while (true)
 			{       
@@ -60,16 +56,20 @@ public class Client
 				// If client sends exit,close this connection
 				// and then break from the while loop
 				if(tosend.equals("salir"))
-				{
+				{  
+                                        Globales.getInstance().fd = true;
                                         Transferencia t = new Transferencia(tosend, new ArrayList<>(), null);
                                         dos.writeUTF(gson.toJson(t));
+                                        
+
+					System.out.println("Closing this connection : " + s);
 					s.close();
 					System.out.println("Connection closed");
                                         
 					break;
 				}
                                 else if(tosend.equals("login")){
-                                    jugador = new Jugadores("Juan", null, "azul", new ArrayList<>(), 0, 0, -16, false);
+                                    jugador = new Jugadores("Esteban", null, "azul", new ArrayList<>(), 0, 0, -16, false);
                                     
                                     List<Object> lstObject = new ArrayList<Object>();
                                     lstObject.add(jugador);
@@ -88,7 +88,7 @@ public class Client
                                     dos.writeUTF(gson.toJson(t));
                                 }
                                 else if(tosend.equals("iniciarPartida")){
-                                    Transferencia t = new Transferencia("iniciarPartida", new ArrayList<>(), null);
+                                    Transferencia t = new Transferencia(tosend, new ArrayList<>(), null);
                                     dos.writeUTF(gson.toJson(t));
                                 }
 				

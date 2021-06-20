@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,6 +20,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.una.cacao_cliente.clases.Globales;
+import org.una.cacao_cliente.clases.Transferencia;
 
 public class FlowController {
     
@@ -173,7 +177,7 @@ public class FlowController {
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
-
+        stage.setOnCloseRequest(e -> closeProgram());
     }
 
     public void goViewInWindowModal(String viewName, Stage parentStage, Boolean resizable) {
@@ -211,8 +215,12 @@ public class FlowController {
         this.loaders.clear();
     }
 
-    public void salir() {
-        this.mainStage.close();
+    public void closeProgram(){
+        if(Globales.getInstance().comunicacion.getS() != null){
+            Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("salir", null, null));
+        
+        }
+       // mainStage.close();
     }
     
     public void titulo(String titulo) {

@@ -1,4 +1,4 @@
-package org.una.cacao_servidor.clases;
+package org.una.cacao_cliente.clases;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,4 @@
-package org.una.cacao_servidor.clases;
-
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+package org.una.cacao_cliente.clases;
 
 /**
  *
@@ -13,8 +9,9 @@ public class Globales {
     private static Globales INSTANCE = null;
   
     public Partida partida;
-    public List<Socket> listaSockets = new ArrayList<>();
-    public boolean fd;
+    public boolean escucharServidor;
+    public Comunicacion comunicacion;
+    public Jugadores jugador;
     
     private static void createInstance() {
         if (INSTANCE == null) {

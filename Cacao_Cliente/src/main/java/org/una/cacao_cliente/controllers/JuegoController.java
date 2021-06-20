@@ -20,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import org.una.cacao_cliente.utility.FlowController;
 
 /**
  * FXML Controller class
@@ -88,6 +89,10 @@ public class JuegoController extends Controller implements Initializable {
     /**
      * Initializes the controller class.
      */
+    public void ActualizarVista() {
+        System.out.println("hola");
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -105,6 +110,7 @@ public class JuegoController extends Controller implements Initializable {
 
     @FXML
     private void btnSalirOnAction(ActionEvent event) {
+        FlowController.getInstance().closeProgram();
         System.exit(0);
     }
 
