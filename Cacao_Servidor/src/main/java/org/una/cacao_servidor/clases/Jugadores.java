@@ -16,13 +16,13 @@ public class Jugadores {
     private int cacaos;
     private int monedas;
     private int puntosRio;
-    private List<LosetasRecolectores> losetasRecolectores;
+    private List<Losetas> losetasRecolectores;
     
     public Jugadores(){
     }
 
     public Jugadores(String nombre, Date fechaNacimiento, String color,
-        List<LosetasRecolectores> losetasRecolectores, int cacaos, int monedas, int puntosRio, boolean aceptarPartida) {
+        List<Losetas> losetasRecolectores, int cacaos, int monedas, int puntosRio, boolean aceptarPartida) {
         
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
@@ -58,7 +58,7 @@ public class Jugadores {
         this.puntosRio = puntosRio;
     }
 
-    public void setLosetasRecolectores(List<LosetasRecolectores> losetasRecolectores) {
+    public void setLosetasRecolectores(List<Losetas> losetasRecolectores) {
         this.losetasRecolectores = losetasRecolectores;
     }
 
@@ -94,7 +94,7 @@ public class Jugadores {
         return aceptarPartida;
     }
 
-    public List<LosetasRecolectores> getLosetasRecolectores() {
+    public List<Losetas> getLosetasRecolectores() {
         return losetasRecolectores;
     }
 

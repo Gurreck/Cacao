@@ -1,6 +1,5 @@
 package org.una.cacao_cliente.clases;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 /**
@@ -10,15 +9,14 @@ import java.util.Collections;
 public class Partida {
     
     private List<Jugadores> jugadores;
-    private List<LosetasSelva> baraja_losetasSelva;
-    private ArrayList<ArrayList> tablero;
+    private List<Losetas> baraja_losetasSelva;
+    private Losetas[][] tablero;
     private String turno;
 
     public Partida() {
-        baraja_losetasSelva = new ArrayList<>();
     }
 
-    public Partida(List<Jugadores> jugadores, List<LosetasSelva> baraja_losetasSelva, ArrayList<ArrayList> tablero, String turno) {
+    public Partida(List<Jugadores> jugadores, List<Losetas> baraja_losetasSelva, Losetas[][] tablero, String turno) {
         this.jugadores = jugadores;
         this.baraja_losetasSelva = baraja_losetasSelva;
         this.tablero = tablero;
@@ -28,11 +26,11 @@ public class Partida {
         this.jugadores = jugadores;
     }
 
-    public void setBaraja_losetasSelva(List<LosetasSelva> baraja_losetasSelva) {
+    public void setBaraja_losetasSelva(List<Losetas> baraja_losetasSelva) {
         this.baraja_losetasSelva = baraja_losetasSelva;
     }
 
-    public void setTablero(ArrayList<ArrayList> tablero) {
+    public void setTablero(Losetas[][] tablero) {
         this.tablero = tablero;
     }
 
@@ -44,11 +42,11 @@ public class Partida {
         return jugadores;
     }
 
-    public List<LosetasSelva> getBaraja_losetasSelva() {
+    public List<Losetas> getBaraja_losetasSelva() {
         return baraja_losetasSelva;
     }
 
-    public ArrayList<ArrayList> getTablero() {
+    public Losetas[][] getTablero() {
         return tablero;
     }
 
@@ -86,21 +84,21 @@ public class Partida {
         
         //Crea las losetas de 1-1-1-1
         for ( int i = 0 ; i < 4 ; i++ ){
-            LosetasRecolectores Recolector1 = new LosetasRecolectores("Recolector1",jugadores.get(pos).getColor(),1,1,1,1);
+            Losetas Recolector1 = new Losetas("Recolector1",jugadores.get(pos).getColor(),1,1,1,1);
             jugadores.get(pos).getLosetasRecolectores().add(Recolector1);
         }
         //Crea las losetas de 2-1-0-1
         for ( int i = 0 ; i < 5 ; i++ ){
-            LosetasRecolectores Recolector2 = new LosetasRecolectores("Recolector2",jugadores.get(pos).getColor(),1,1,0,2);
+            Losetas Recolector2 = new Losetas("Recolector2",jugadores.get(pos).getColor(),1,1,0,2);
             jugadores.get(pos).getLosetasRecolectores().add(Recolector2);
         }
         
         //Crea las losetas de 3-0-0-1
-        LosetasRecolectores Recolector3 = new LosetasRecolectores("Recolector3",jugadores.get(pos).getColor(),1,0,0,3);
+        Losetas Recolector3 = new Losetas("Recolector3",jugadores.get(pos).getColor(),1,0,0,3);
         jugadores.get(pos).getLosetasRecolectores().add(Recolector3);
         
         //Crea las losetas de 3-1-0-0
-        LosetasRecolectores Recolector4 = new LosetasRecolectores("Recolector4",jugadores.get(pos).getColor(),0,1,0,3);
+        Losetas Recolector4 = new Losetas("Recolector4",jugadores.get(pos).getColor(),0,1,0,3);
         jugadores.get(pos).getLosetasRecolectores().add(Recolector4);
         
         if(CantJugadores == 3){
@@ -116,7 +114,7 @@ public class Partida {
         
         //Imprimir lista de objetos
         /*int i = 0;
-        for (LosetasRecolectores obj : jugadores.get(pos).getLosetasRecolectores()) {
+        for (Losetas obj : jugadores.get(pos).getLosetasRecolectores()) {
                 
           System.out.println(obj.getTipo() +" || "+ i);
           i +=1;
@@ -132,11 +130,11 @@ public class Partida {
         for ( int i = 0 ; i < 8 ; i++ ){
             
             if(i < 6){ //6 losetas de 1 cacao
-                LosetasSelva Cacao1 = new LosetasSelva("Cacao1");
+                Losetas Cacao1 = new Losetas("Cacao1");
                 baraja_losetasSelva.add(Cacao1);
             }
             else { //2 losetas de 2 cacaos
-                LosetasSelva Cacao2 = new LosetasSelva("Cacao2");
+                Losetas Cacao2 = new Losetas("Cacao2");
                 baraja_losetasSelva.add(Cacao2);
             }
         }
@@ -144,15 +142,15 @@ public class Partida {
         //Crea las losetas de mercado
         for ( int i = 0 ; i < 7 ; i++ ){
             if(i < 2) { // 2 Losetas de 2 monedas 
-                LosetasSelva Mercado2 = new LosetasSelva("Mercado2");
+                Losetas Mercado2 = new Losetas("Mercado2");
                 baraja_losetasSelva.add(Mercado2);
             }
             else if(i < 6) {  //4 losetas de 3 monedas
-                LosetasSelva Mercado3 = new LosetasSelva("Mercado3");
+                Losetas Mercado3 = new Losetas("Mercado3");
                 baraja_losetasSelva.add(Mercado3);
             }
             else { //1 loseta de 4 monedas
-                LosetasSelva Mercado4 = new LosetasSelva("Mercado4");
+                Losetas Mercado4 = new Losetas("Mercado4");
                 baraja_losetasSelva.add(Mercado4);
             }
         }
@@ -160,30 +158,30 @@ public class Partida {
         //Crea las losetas de minas
         for ( int i = 0 ; i < 3 ; i++ ){
             if(i < 2) {  //2 losetas de valor 1
-                LosetasSelva Mina1 = new LosetasSelva("Mina1");
+                Losetas Mina1 = new Losetas("Mina1");
                 baraja_losetasSelva.add(Mina1);
             }
             else { //1 loseta de valor 2
-                LosetasSelva Mina2 = new LosetasSelva("Mina2");
+                Losetas Mina2 = new Losetas("Mina2");
                 baraja_losetasSelva.add(Mina2);
             }
         }
         
         //Crea las losetas de agua
         for ( int i = 0 ; i < 3 ; i++ ){
-            LosetasSelva Agua = new LosetasSelva("Agua");
+            Losetas Agua = new Losetas("Agua");
             baraja_losetasSelva.add(Agua);
         }
         
         //Crea las losetas solares
         for ( int i = 0 ; i < 2 ; i++ ){
-            LosetasSelva Solar = new LosetasSelva("Solar");
+            Losetas Solar = new Losetas("Solar");
             baraja_losetasSelva.add(Solar);
         }
         
         //Crea las losetas de los templos
         for ( int i = 0 ; i < 5 ; i++ ){
-            LosetasSelva Templo = new LosetasSelva("Templo");
+            Losetas Templo = new Losetas("Templo");
             baraja_losetasSelva.add(Templo);
         }
         

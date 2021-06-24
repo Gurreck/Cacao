@@ -2,11 +2,11 @@
 package org.una.cacao_servidor;
 import com.google.gson.Gson;
 import java.io.*;
-import java.text.*;
 import java.util.*;
 import java.net.*;
 import org.una.cacao_servidor.clases.Globales;
 import org.una.cacao_servidor.clases.Jugadores;
+import org.una.cacao_servidor.clases.Losetas;
 import org.una.cacao_servidor.clases.Partida;
 import org.una.cacao_servidor.clases.Transferencia;
 
@@ -18,7 +18,7 @@ public class servidor implements Serializable
     {
         // server is listening on port 5056
         ServerSocket ss = new ServerSocket(5056);
-
+        System.out.println("Servidor en linea");
         // running infinite loop for getting
         // client request
         while (true)
@@ -93,11 +93,8 @@ class ClientHandler extends Thread
         {
             try {
 
-                if(Globales.getInstance().partida == null){
-                    
-                   Globales.getInstance().partida = new Partida();
-                   Globales.getInstance().partida.setJugadores(new ArrayList<Jugadores>());
-                   
+                if(Globales.getInstance().partida == null){       
+                   Globales.getInstance().partida = new Partida(new ArrayList<>(), new ArrayList<>(), new Losetas[25][25],"");
                 }
                 else if(Globales.getInstance().partida.getJugadores().size() > 4){
                     Transferencia t = new Transferencia("Servidor Lleno", new ArrayList<>() , null);
@@ -177,6 +174,10 @@ class ClientHandler extends Thread
 
                         dos.writeUTF(toreturn);
                     }
+                }
+                else if(datos.getOperacion().equals("colocarLoseta")){
+                    Globales.getInstance().partida = datos.getPartida();
+                    actualizarTodos("Actualizar Juego");
                 }
                 else{
                     Transferencia t = new Transferencia("Error Peticion", new ArrayList<>(), Globales.getInstance().partida);

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" styleClass="FondoJuego" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.JuegoController">
+<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" styleClass="FondoJuego" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.JuegoController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -31,9 +31,9 @@
                               </Label>
                            </children>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" />
-                        <HBox prefHeight="100.0" prefWidth="200.0" />
-                        <HBox prefHeight="100.0" prefWidth="200.0" />
+                        <HBox fx:id="hBox_LosetaSelva1" alignment="CENTER" onMouseClicked="#escogerLosetaSelva1" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                        <HBox fx:id="hBox_LosetaSelva2" alignment="CENTER" onMouseClicked="#escogerLosetaSelva2" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                        <HBox fx:id="hBox_LosetaSelva3" alignment="CENTER" onMouseClicked="#escogerLosetaSelva3" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets top="20.0" />
@@ -50,9 +50,9 @@
                               </Label>
                            </children>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" />
-                        <HBox prefHeight="100.0" prefWidth="200.0" />
-                        <HBox prefHeight="100.0" prefWidth="200.0" />
+                        <HBox fx:id="hBox_Loseta1Jugador" alignment="CENTER" onMouseClicked="#escogerLoseta1Jugador" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                        <HBox fx:id="hBox_Loseta2Jugador" alignment="CENTER" onMouseClicked="#escogerLoseta2Jugador" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                        <HBox fx:id="hBox_Loseta3Jugador" alignment="CENTER" onMouseClicked="#escogerLoseta3Jugador" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
                </children></VBox>
@@ -66,7 +66,7 @@
                   </HBox>
                   <ScrollPane hvalue="0.5" pannable="true" prefHeight="720.0" prefWidth="852.0" stylesheets="@../css/Style.css" vvalue="0.5" VBox.vgrow="ALWAYS">
                      <content>
-                        <GridPane fx:id="grid_juego" alignment="CENTER" gridLinesVisible="true" prefHeight="2230.0" prefWidth="2629.0" styleClass="gridPane">
+                        <GridPane fx:id="grid_juego" alignment="CENTER" gridLinesVisible="true" onMouseClicked="#colocarLoseta" prefHeight="2500.0" prefWidth="2500.0" styleClass="gridPane">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -126,15 +126,29 @@
                   </ScrollPane>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
                      <children>
-                        <Button fx:id="btn_salir" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnSalirOnAction" prefHeight="97.0" prefWidth="80.0" style="-fx-background-color: none;">
-                           <graphic>
-                              <ImageView fitHeight="96.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../img/salida.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
+                        <HBox alignment="CENTER" minWidth="280.0" HBox.hgrow="ALWAYS" />
+                        <HBox alignment="CENTER" minWidth="280.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnSalirOnAction" prefHeight="97.0" prefWidth="80.0" style="-fx-background-color: none;">
+                                 <graphic>
+                                    <ImageView fitHeight="96.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../img/salida.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" minWidth="280.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnColocarOnAction" style="-fx-background-color: green;" text="Colocar" textFill="WHITE">
+                                 <font>
+                                    <Font size="33.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
                      </children>
                   </HBox>
                </children>
@@ -156,7 +170,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador1_coins" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador1_coins" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -171,7 +185,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador1_river" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador1_river" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -186,7 +200,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador1_cacaos" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador1_cacaos" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -201,7 +215,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador1_sol" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador1_sol" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -225,7 +239,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador2_coins" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador2_coins" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -240,7 +254,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador2_river" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador2_river" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -255,7 +269,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador2_cacaos" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador2_cacaos" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -270,7 +284,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador2_sol" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador2_sol" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -294,7 +308,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador3_coins" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador3_coins" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -309,7 +323,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador3_river" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador3_river" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -324,7 +338,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador3_cacaos" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador3_cacaos" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -339,7 +353,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador3_sol" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador3_sol" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -363,7 +377,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador4_coins" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador4_coins" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -378,7 +392,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador4_river" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador4_river" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -393,7 +407,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador4_cacaos" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador4_cacaos" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -408,7 +422,7 @@
                                  </image>
                               </ImageView>
                               <Label styleClass="letraJuego" text=":" />
-                              <Label fx:id="lbl_jugador4_sol" prefHeight="23.0" prefWidth="32.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
+                              <Label fx:id="lbl_jugador4_sol" prefHeight="23.0" prefWidth="50.0" styleClass="letraJuego" stylesheets="@../css/Style.css">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>

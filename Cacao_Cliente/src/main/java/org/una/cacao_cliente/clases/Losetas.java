@@ -4,7 +4,7 @@ package org.una.cacao_cliente.clases;
  *
  * @author Esteban Vargas
  */
-public class LosetasRecolectores {
+public class Losetas {
     
     private String tipo;
     private String color;
@@ -13,10 +13,14 @@ public class LosetasRecolectores {
     private int izquierda;
     private int derecha;
 
-    public LosetasRecolectores() {
+    public Losetas() {
+    }
+    
+    public Losetas(String tipo) {
+        this.tipo = tipo;
     }
 
-    public LosetasRecolectores(String tipo, String color, int arriba, int abajo, int izquierda, int derecha) {
+    public Losetas(String tipo, String color, int arriba, int abajo, int izquierda, int derecha) {
         this.tipo = tipo;
         this.color = color;
         this.arriba = arriba;
