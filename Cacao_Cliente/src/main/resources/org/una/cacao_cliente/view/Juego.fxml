@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" styleClass="FondoJuego" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.JuegoController">
+<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" styleClass="FondoJuego" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.JuegoController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -126,8 +126,8 @@
                   </ScrollPane>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
                      <children>
-                        <HBox alignment="CENTER" minWidth="280.0" HBox.hgrow="ALWAYS" />
-                        <HBox alignment="CENTER" minWidth="280.0" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER" minWidth="270.0" prefHeight="97.0" prefWidth="319.0" HBox.hgrow="ALWAYS" />
+                        <HBox alignment="CENTER" minWidth="62.0" prefHeight="97.0" prefWidth="62.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnSalirOnAction" prefHeight="97.0" prefWidth="80.0" style="-fx-background-color: none;">
                                  <graphic>
@@ -140,12 +140,16 @@
                               </Button>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" minWidth="280.0" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_RIGHT" minWidth="262.0" prefHeight="97.0" prefWidth="318.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#btnColocarOnAction" style="-fx-background-color: green;" text="Colocar" textFill="WHITE">
-                                 <font>
-                                    <Font size="33.0" />
-                                 </font>
+                              <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnColocarOnAction" style="-fx-background-color: none;">
+                                 <graphic>
+                                    <ImageView fitHeight="60.0" fitWidth="148.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../img/btn_colocar_recolector.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </Button>
                            </children>
                         </HBox>

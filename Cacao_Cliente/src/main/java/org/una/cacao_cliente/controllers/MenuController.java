@@ -27,6 +27,7 @@ import org.una.cacao_cliente.clases.Globales;
 import org.una.cacao_cliente.clases.Jugadores;
 import org.una.cacao_cliente.clases.Transferencia;
 import org.una.cacao_cliente.utility.FlowController;
+import org.una.cacao_cliente.utility.Mensaje;
 
 /**
  * FXML Controller class
@@ -51,6 +52,8 @@ public class MenuController extends Controller implements Initializable {
     private Button btn_jugar;
     @FXML
     private StackPane root;
+    
+    Mensaje msg = new Mensaje();
 
     /**
      * Initializes the controller class.
@@ -102,8 +105,8 @@ public class MenuController extends Controller implements Initializable {
             
         }
         else{
-            System.out.println("Faltan Datos por llenar");
-        
+                msg.alerta(root, "Alerta", "Por favor, ingrese los datos requeridos");
+           
         }
         
     }

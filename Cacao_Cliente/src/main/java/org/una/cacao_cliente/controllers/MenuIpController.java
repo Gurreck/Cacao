@@ -21,6 +21,7 @@ import javafx.scene.layout.StackPane;
 import org.una.cacao_cliente.clases.Comunicacion;
 import org.una.cacao_cliente.clases.Globales;
 import org.una.cacao_cliente.utility.FlowController;
+import org.una.cacao_cliente.utility.Mensaje;
 
 /**
  * FXML Controller class
@@ -38,6 +39,7 @@ public class MenuIpController extends Controller implements Initializable {
     @FXML
     private Button btn_siguiente;
 
+    Mensaje msg = new Mensaje();
     /**
      * Initializes the controller class.
      */
@@ -66,13 +68,12 @@ public class MenuIpController extends Controller implements Initializable {
                 FlowController.getInstance().goViewInStage("Menu",getStage());
 
             }catch(Exception e){
-                System.out.println("Error al conectarse");
+                
+                msg.alerta(root, "Alerta", "Error de conexion");
             }
 
         }else{
-            
-            //CREAR ALERTA DE FALTA INGRESAR INFORMACION
-        
+           msg.alerta(root, "Alerta", "Por favor complete los campos necesarios");
         }
     }
 

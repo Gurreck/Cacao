@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.SalaEsperaController">
+<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.SalaEsperaController">
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="100.0" styleClass="Fondo" stylesheets="@../css/Style.css" StackPane.alignment="CENTER">
          <children>
@@ -73,11 +73,11 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#btnIniciarOnAction" prefHeight="86.0" prefWidth="207.0" style="-fx-background-color: none;" text="Iniciar Partida" textAlignment="CENTER" textFill="WHITE">
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnIniciarOnAction" prefHeight="86.0" prefWidth="207.0" style="-fx-background-color: none;" textAlignment="CENTER" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/btn_listo.png" />
+                              <Image url="@../img/btn_iniciar_partida.png" />
                            </image>
                         </ImageView>
                      </graphic>

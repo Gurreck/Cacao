@@ -6,10 +6,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import javafx.application.Platform;
+import javafx.scene.layout.StackPane;
 import org.una.cacao_cliente.controllers.JuegoController;
 import org.una.cacao_cliente.controllers.MenuController;
 import org.una.cacao_cliente.controllers.SalaEsperaController;
 import org.una.cacao_cliente.utility.FlowController;
+import org.una.cacao_cliente.utility.Mensaje;
 /**
  *
  * @author Esteban Vargas
@@ -20,7 +22,7 @@ public class Comunicacion {
     // obtaining input and out streams
     private final DataInputStream dis;
     private final DataOutputStream dos;
-    
+    Mensaje msg = new Mensaje();
     private final Gson gson;
 
     public Comunicacion(Socket s, DataInputStream dis, DataOutputStream dos) {
@@ -120,11 +122,13 @@ public class Comunicacion {
             JuegoController.ActualizarVista();
         }
         else if(t.getOperacion().equals("Faltan AceptarPartida")){ 
-            
+            SalaEsperaController SalaEsperaController = (SalaEsperaController) FlowController.getInstance().getController("SalaEspera");
+            msg.alerta((StackPane)(SalaEsperaController.getRoot()), "Alerta", "Faltan jugadores por aceptar la partida, por favor espere");
             System.out.println(t.getOperacion());
         }
         else if(t.getOperacion().equals("Color Ocupado")){ 
-            
+            MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
+            msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "El color seleccionado se encuentra ocupado, por favor escoja otro");
             System.out.println(t.getOperacion());
         }
        }
