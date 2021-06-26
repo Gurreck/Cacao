@@ -216,7 +216,7 @@ public class FlowController {
     }
 
     public void closeProgram(){
-        if(Globales.getInstance().comunicacion.getS() != null){
+        if(Globales.getInstance().comunicacion != null){
             Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("salir", null, null));
         
         }

@@ -7,7 +7,9 @@ package org.una.cacao_cliente.clases;
 public class Losetas {
     
     private String tipo;
+    private String clasificacion;
     private String color;
+    private double angulo;
     private int arriba;
     private int abajo;
     private int izquierda;
@@ -15,14 +17,17 @@ public class Losetas {
 
     public Losetas() {
     }
-    
-    public Losetas(String tipo) {
-        this.tipo = tipo;
-    }
 
-    public Losetas(String tipo, String color, int arriba, int abajo, int izquierda, int derecha) {
+    public Losetas(String tipo, String clasificacion) {
         this.tipo = tipo;
+        this.clasificacion = clasificacion;
+    }
+    
+    public Losetas(String tipo, String clasificacion, String color, double angulo, int arriba, int abajo, int izquierda, int derecha) {
+        this.tipo = tipo;
+        this.clasificacion = clasificacion;
         this.color = color;
+        this.angulo = angulo;
         this.arriba = arriba;
         this.abajo = abajo;
         this.izquierda = izquierda;
@@ -33,8 +38,16 @@ public class Losetas {
         this.tipo = tipo;
     }
 
+    public void setClasificacion(String clasificacion) {
+        this.clasificacion = clasificacion;
+    }
+
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public void setAngulo(double angulo) {
+        this.angulo = angulo;
     }
 
     public void setArriba(int arriba) {
@@ -57,8 +70,16 @@ public class Losetas {
         return tipo;
     }
 
+    public String getClasificacion() {
+        return clasificacion;
+    }
+
     public String getColor() {
         return color;
+    }
+
+    public double getAngulo() {
+        return angulo;
     }
 
     public int getArriba() {

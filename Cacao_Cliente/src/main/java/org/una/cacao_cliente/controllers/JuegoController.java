@@ -107,7 +107,8 @@ public class JuegoController extends Controller implements Initializable {
     private ImageView losetaTemporal;
     private boolean rotarLoseta;
     private boolean losetaColocada;
-    private String nombreLosetaColocada;
+    private String nombreLosetaColocada = "";
+    private Losetas losetaTemporalTablero = new Losetas();
     /**
      * Initializes the controller class.
      */
@@ -148,7 +149,7 @@ public class JuegoController extends Controller implements Initializable {
         hBox_LosetaSelva1.getChildren().clear();
         hBox_LosetaSelva2.getChildren().clear();
         hBox_LosetaSelva3.getChildren().clear();
-        borrarImagen();
+        limpiarTablero();
     }
     
     private void actualizarTablero(){
@@ -158,6 +159,7 @@ public class JuegoController extends Controller implements Initializable {
                     ImageView imageView = new ImageView(new Image("/org/una/cacao_cliente/img/"+Globales.getInstance().partida.getTablero()[i][j].getTipo()+".png"));
                     imageView.setFitHeight(100);
                     imageView.setFitWidth(100);
+                    imageView.setRotate(Globales.getInstance().partida.getTablero()[i][j].getAngulo());
                     VBox source = (VBox) ObtenerNodoPanel(i, j);
                     
                     source.getChildren().add(imageView);
@@ -257,7 +259,7 @@ public class JuegoController extends Controller implements Initializable {
         return resultado;
     }
     
-    public void borrarImagen() {
+    public void limpiarTablero() {
 
         ObservableList<Node> childrens = grid_juego.getChildren();
         
@@ -267,6 +269,40 @@ public class JuegoController extends Controller implements Initializable {
             source.getChildren().clear();
             }
         }
+    }
+    
+    private boolean EvaluarColocarLoseta(int i, int j, String clasificacion, int cant){
+        Losetas[][] tablero = Globales.getInstance().partida.getTablero();
+        int[] posibilidad = new int[2];
+        if(tablero[i][j] == null){
+            if(tablero[i-1][j] != null){
+                posibilidad = EvaluarColocarLosetaPos(tablero, i-1, j, clasificacion, posibilidad);
+            }
+            if(tablero[i+1][j] != null){
+                posibilidad = EvaluarColocarLosetaPos(tablero, i+1, j, clasificacion, posibilidad);
+            }
+            if(tablero[i][j-1] != null){
+                posibilidad = EvaluarColocarLosetaPos(tablero, i, j-1, clasificacion, posibilidad);
+            }
+            if(tablero[i][j+1] != null){
+                posibilidad = EvaluarColocarLosetaPos(tablero, i, j+1, clasificacion, posibilidad);
+            }
+        }
+        return posibilidad[0] >= cant && posibilidad[1] == 0;
+    }
+    
+    private int[] EvaluarColocarLosetaPos(Losetas[][] tablero, int i, int j, String clasificacion, int[] posibilidad){
+        if(tablero[i][j] != null){
+            if(tablero[i][j].getClasificacion().equals(clasificacion)){
+                posibilidad[0]+=1;
+                return posibilidad;
+            }
+            else{
+                posibilidad[1]+=1;
+                return posibilidad;
+            }
+        }
+        return posibilidad;
     }
     
     @Override
@@ -305,7 +341,17 @@ public class JuegoController extends Controller implements Initializable {
             VBox source = (VBox)event.getTarget();
             Integer colIndex = GridPane.getColumnIndex(source);
             Integer rowIndex = GridPane.getRowIndex(source);
-            if(losetaTemporal!=null && source.getChildren().isEmpty()){
+            String clasificacion;
+            int cant;
+            if(nombreLosetaColocada.equals("losetaSelva1") || nombreLosetaColocada.equals("losetaSelva2") || nombreLosetaColocada.equals("losetaSelva3")){
+                clasificacion = "Recolector";
+                cant = 2;
+            }else{
+                 clasificacion = "Selva";
+                cant = 1;
+            }
+            
+            if(losetaTemporal!=null && EvaluarColocarLoseta(rowIndex, colIndex, clasificacion, cant)){
                 source.getChildren().add(losetaTemporal);
                 GridPane.setColumnIndex(source, colIndex);
                 GridPane.setRowIndex(source, rowIndex);
@@ -318,6 +364,14 @@ public class JuegoController extends Controller implements Initializable {
         else if(losetaTemporal == event.getTarget() && rotarLoseta) {
             ImageView source = (ImageView)event.getTarget();
             source.setRotate(source.getRotate() + 90); 
+            losetaTemporalTablero.setAngulo(source.getRotate());
+            int arriba = losetaTemporalTablero.getArriba(), abajo = losetaTemporalTablero.getAbajo(), der = losetaTemporalTablero.getDerecha(), izq = losetaTemporalTablero.getIzquierda();
+            //System.out.println("Antes: "+arriba + " | " + abajo + " | " + der+ " | " + izq);
+            losetaTemporalTablero.setArriba(izq);
+            losetaTemporalTablero.setAbajo(der);
+            losetaTemporalTablero.setIzquierda(abajo);
+            losetaTemporalTablero.setDerecha(arriba);
+            //System.out.println("Despues: "+losetaTemporalTablero.getArriba() +" | "+ losetaTemporalTablero.getAbajo() + " | " + losetaTemporalTablero.getDerecha() + " | " +losetaTemporalTablero.getIzquierda() );
         }
     }
         
@@ -327,6 +381,14 @@ public class JuegoController extends Controller implements Initializable {
             rotarLoseta = true;
             losetaTemporal = (ImageView) hBox_Loseta1Jugador.getChildren().get(0);
             nombreLosetaColocada = "loseta1Jugador";
+            List<Losetas> losetasJugador = null;
+            for(Jugadores j : Globales.getInstance().partida.getJugadores()){
+                if(j.getColor().equals(Globales.getInstance().jugador.getColor())){
+                    losetasJugador = j.getLosetasRecolectores();
+                    break;
+                }
+            }
+            losetaTemporalTablero = losetasJugador.get(0);
         }
     }
 
@@ -336,6 +398,14 @@ public class JuegoController extends Controller implements Initializable {
             rotarLoseta = true;
             losetaTemporal = (ImageView) hBox_Loseta2Jugador.getChildren().get(0);
             nombreLosetaColocada = "loseta2Jugador";
+            List<Losetas> losetasJugador = null;
+            for(Jugadores j : Globales.getInstance().partida.getJugadores()){
+                if(j.getColor().equals(Globales.getInstance().jugador.getColor())){
+                    losetasJugador = j.getLosetasRecolectores();
+                    break;
+                }
+            }
+            losetaTemporalTablero = losetasJugador.get(1);
         }
     }
 
@@ -345,6 +415,14 @@ public class JuegoController extends Controller implements Initializable {
             rotarLoseta = true;
             losetaTemporal = (ImageView) hBox_Loseta3Jugador.getChildren().get(0);
             nombreLosetaColocada = "loseta3Jugador";
+            List<Losetas> losetasJugador = null;
+            for(Jugadores j : Globales.getInstance().partida.getJugadores()){
+                if(j.getColor().equals(Globales.getInstance().jugador.getColor())){
+                    losetasJugador = j.getLosetasRecolectores();
+                    break;
+                }
+            }
+            losetaTemporalTablero = losetasJugador.get(2);
         }
     }
 
@@ -381,40 +459,60 @@ public class JuegoController extends Controller implements Initializable {
             
             Losetas[][] tablero = Globales.getInstance().partida.getTablero();
             List<Losetas> losetasJugador = null;
+            Jugadores jugador = null;
             List<Losetas> losetasSelva = Globales.getInstance().partida.getBaraja_losetasSelva();
             for(Jugadores j : Globales.getInstance().partida.getJugadores()){
                 if(j.getColor().equals(Globales.getInstance().jugador.getColor())){
                     losetasJugador = j.getLosetasRecolectores();
+                    jugador = j;
+                    break;
                 }
             }
 
             if(nombreLosetaColocada.equals("loseta1Jugador")){
                 tablero[rowCount][columnCount] = losetasJugador.get(0);
+                losetasJugador.remove(losetasJugador.get(0));
             }
             else if(nombreLosetaColocada.equals("loseta2Jugador")){
                 tablero[rowCount][columnCount] = losetasJugador.get(1);
+                losetasJugador.remove(losetasJugador.get(1));
             }
             else if(nombreLosetaColocada.equals("loseta3Jugador")){
                 tablero[rowCount][columnCount] = losetasJugador.get(2);
+                losetasJugador.remove(losetasJugador.get(2));
             }
             else if(nombreLosetaColocada.equals("losetaSelva1")){
                 tablero[rowCount][columnCount] = losetasSelva.get(0);
+                losetasSelva.remove(losetasSelva.get(0));
             }
             else if(nombreLosetaColocada.equals("losetaSelva2")){
                 tablero[rowCount][columnCount] = losetasSelva.get(1);
+                losetasSelva.remove(losetasSelva.get(1));
             }
             else{
                 tablero[rowCount][columnCount] = losetasSelva.get(2);
+                losetasSelva.remove(losetasSelva.get(2));
             }
             
+            tablero[rowCount][columnCount].setAngulo(losetaTemporalTablero.getAngulo());
+            tablero[rowCount][columnCount].setArriba(losetaTemporalTablero.getArriba());
+            tablero[rowCount][columnCount].setAbajo(losetaTemporalTablero.getAbajo());
+            tablero[rowCount][columnCount].setIzquierda(losetaTemporalTablero.getIzquierda());
+            tablero[rowCount][columnCount].setDerecha(losetaTemporalTablero.getDerecha());
+            
             Globales.getInstance().partida.setTablero(tablero);
-            Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("colocarLoseta", new ArrayList<>(), Globales.getInstance().partida));
+            Globales.getInstance().partida.setBaraja_losetasSelva(losetasSelva);
+            int pos = Globales.getInstance().partida.getJugadores().indexOf(jugador);
+            Globales.getInstance().partida.getJugadores().get(pos).setLosetasRecolectores(losetasJugador);
+            List<Object> lstObject = new ArrayList<>();
+            lstObject.add(Globales.getInstance().jugador);
+            lstObject.add(rowCount);
+            lstObject.add(columnCount);
+            Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("colocarLoseta", lstObject, Globales.getInstance().partida));
             losetaTemporal = null;
+            losetaTemporalTablero = new Losetas();
             losetaColocada = false;
             nombreLosetaColocada = "";
         }
     }
-
-
-    
 }
