@@ -178,7 +178,15 @@ class ClientHandler extends Thread
                 else if(datos.getOperacion().equals("colocarLoseta")){
                     Jugadores jugador = gson.fromJson(gson.toJson(datos.getDatosOperacion().get(0)), Jugadores.class);
                     System.out.println(datos.getDatosOperacion().get(1)+" | " + datos.getDatosOperacion().get(2));
-                    datos.getPartida().validarLosetaRecolector(jugador, (int)Math.round((double) datos.getDatosOperacion().get(1)), (int)Math.round((double) datos.getDatosOperacion().get(2)));
+                    if(datos.getDatosOperacion().get(3).equals("Recolector")){
+                        System.out.println("Heloo");
+                        datos.getPartida().validarLosetaRecolector(jugador, (int)Math.round((double) datos.getDatosOperacion().get(1)), (int)Math.round((double) datos.getDatosOperacion().get(2)));
+                    }
+                    else{
+                        System.out.println("WAP");
+                        datos.getPartida().validarLosetaSelva((int)Math.round((double) datos.getDatosOperacion().get(1)), (int)Math.round((double) datos.getDatosOperacion().get(2)));
+                    }
+                    
                     Globales.getInstance().partida = datos.getPartida();
                     actualizarTodos("Actualizar Juego");
                 }

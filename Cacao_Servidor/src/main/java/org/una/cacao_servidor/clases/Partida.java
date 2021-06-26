@@ -240,6 +240,41 @@ public class Partida {
         baraja_losetasSelva.remove(15); //Remueve 1 templo
     }
     
+    public void validarLosetaSelva(int fila, int col){
+        if(tablero[fila-1][col] != null){    //arriba
+            for(int i = 0; i < jugadores.size();i++){
+                if(jugadores.get(i).getColor().equals(tablero[fila-1][col].getColor())){
+                   EvaluarColocarLosetaPos(jugadores.get(i), fila, col, tablero[fila-1][col].getAbajo());
+                   break;
+                }
+            }
+        }
+        if(tablero[fila+1][col] != null){    //abajo
+            for(int i = 0; i < jugadores.size();i++){
+                if(jugadores.get(i).getColor().equals(tablero[fila+1][col].getColor())){
+                   EvaluarColocarLosetaPos(jugadores.get(i), fila, col, tablero[fila+1][col].getArriba());
+                   break;
+                }
+            }
+        }
+        if(tablero[fila][col-1] != null){    //Izquierda
+            for(int i = 0; i < jugadores.size();i++){
+                if(jugadores.get(i).getColor().equals(tablero[fila][col-1].getColor())){
+                   EvaluarColocarLosetaPos(jugadores.get(i), fila, col, tablero[fila][col-1].getDerecha());
+                   break;
+                }
+            }
+        }
+        if(tablero[fila][col+1] != null){ // Derecha
+            for(int i = 0; i < jugadores.size();i++){
+                if(jugadores.get(i).getColor().equals(tablero[fila][col+1].getColor())){
+                   EvaluarColocarLosetaPos(jugadores.get(i), fila, col, tablero[fila][col+1].getIzquierda());
+                   break;
+                }
+            }
+        }
+    }
+    
     public void validarLosetaRecolector(Jugadores j, int fila, int col){
         Losetas loseta = tablero[fila][col];
         List<String> orden = new ArrayList();
@@ -254,28 +289,23 @@ public class Partida {
         if(tablero[fila-1][col] != null){    //arriba
             if(tablero[fila-1][col].getTipo().equals("Cacao1") || tablero[fila-1][col].getTipo().equals("Cacao2")){
                 orden.add("arriba");
-            }
-            //EvaluarColocarLosetaPos(j, fila-1, col, loseta.getAbajo());
+            } 
         }
         if(tablero[fila+1][col] != null){    //abajo
             if(tablero[fila+1][col].getTipo().equals("Cacao1") || tablero[fila+1][col].getTipo().equals("Cacao2")){
                 orden.add("abajo");
             }
-           // EvaluarColocarLosetaPos(j, fila+1, col, loseta.getAbajo());
         }
         if(tablero[fila][col-1] != null){    //Izquierda
             if(tablero[fila][col-1].getTipo().equals("Cacao1") || tablero[fila][col-1].getTipo().equals("Cacao2")){
                 orden.add("izquierda");
             }
-           // EvaluarColocarLosetaPos(j, fila, col-1, loseta.getIzquierda());
         }
         if(tablero[fila][col+1] != null){ // Derecha
             if(tablero[fila][col+1].getTipo().equals("Cacao1") || tablero[fila][col+1].getTipo().equals("Cacao2")){
                 orden.add("derecha");
             }
-           //EvaluarColocarLosetaPos(j, fila, col+1, loseta.getDerecha());
         }
-        
         
         if(!orden.contains("arriba")){
             System.out.println("no tiene arriba");
@@ -292,8 +322,7 @@ public class Partida {
         if(!orden.contains("izquierda")){
             System.out.println("no tiene izquierda");
             orden.add("izquierda");
-        }
-        
+        }      
         
         while(orden.size()>0){
             if(orden.get(0).equals("arriba")){

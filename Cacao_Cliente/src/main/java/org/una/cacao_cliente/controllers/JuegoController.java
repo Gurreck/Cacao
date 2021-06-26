@@ -508,6 +508,14 @@ public class JuegoController extends Controller implements Initializable {
             lstObject.add(Globales.getInstance().jugador);
             lstObject.add(rowCount);
             lstObject.add(columnCount);
+            
+            if(tablero[rowCount][columnCount].getClasificacion().equals("Recolector")){
+                lstObject.add("Recolector");
+                System.out.println("Entre");
+            }else{
+                lstObject.add("Selva");
+            }
+            
             Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("colocarLoseta", lstObject, Globales.getInstance().partida));
             losetaTemporal = null;
             losetaTemporalTablero = new Losetas();
