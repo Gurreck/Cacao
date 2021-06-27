@@ -20,7 +20,7 @@
          <children>
             <VBox prefHeight="720.0" prefWidth="163.0">
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="360.0" prefWidth="100.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="360.0" prefWidth="100.0" spacing="10.0" VBox.vgrow="ALWAYS">
                      <children>
                         <HBox alignment="CENTER">
                            <children>
@@ -31,15 +31,15 @@
                               </Label>
                            </children>
                         </HBox>
-                        <HBox fx:id="hBox_LosetaSelva1" alignment="CENTER" onMouseClicked="#escogerLosetaSelva1" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                        <HBox fx:id="hBox_LosetaSelva2" alignment="CENTER" onMouseClicked="#escogerLosetaSelva2" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                        <HBox fx:id="hBox_LosetaSelva3" alignment="CENTER" onMouseClicked="#escogerLosetaSelva3" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                        <HBox fx:id="hBox_LosetaSelva1" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#escogerLosetaSelva1" VBox.vgrow="ALWAYS" />
+                        <HBox fx:id="hBox_LosetaSelva2" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#escogerLosetaSelva2" VBox.vgrow="ALWAYS" />
+                        <HBox fx:id="hBox_LosetaSelva3" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#escogerLosetaSelva3" VBox.vgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets top="20.0" />
                      </padding>
                   </VBox>
-                  <VBox alignment="TOP_CENTER" prefHeight="360.0" prefWidth="100.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="360.0" prefWidth="100.0" spacing="10.0" VBox.vgrow="ALWAYS">
                      <children>
                         <HBox alignment="CENTER">
                            <children>
@@ -50,9 +50,12 @@
                               </Label>
                            </children>
                         </HBox>
-                        <HBox fx:id="hBox_Loseta1Jugador" alignment="CENTER" onMouseClicked="#escogerLoseta1Jugador" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                        <HBox fx:id="hBox_Loseta2Jugador" alignment="CENTER" onMouseClicked="#escogerLoseta2Jugador" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                        <HBox fx:id="hBox_Loseta3Jugador" alignment="CENTER" onMouseClicked="#escogerLoseta3Jugador" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                        <HBox fx:id="hBox_Loseta1Jugador" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#escogerLoseta1Jugador" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin></HBox>
+                        <HBox fx:id="hBox_Loseta2Jugador" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#escogerLoseta2Jugador" VBox.vgrow="ALWAYS" />
+                        <HBox fx:id="hBox_Loseta3Jugador" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#escogerLoseta3Jugador" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
                </children></VBox>

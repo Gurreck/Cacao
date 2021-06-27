@@ -185,7 +185,14 @@ public class JuegoController extends Controller implements Initializable {
                     imageView.setFitWidth(100);
                     imageView.setRotate(Globales.getInstance().partida.getTablero()[i][j].getAngulo());
                     VBox source = (VBox) ObtenerNodoPanel(i, j);
-                    
+                    if(Globales.getInstance().partida.getTablero()[i][j].getClasificacion().equals("Recolector")){
+                        for(Jugadores jugador : Globales.getInstance().partida.getJugadores()){
+                            if(jugador.getColor().equals(Globales.getInstance().partida.getTablero()[i][j].getColor())){
+
+                               source.setStyle("-fx-background-color : "+asignarColor(Globales.getInstance().partida.getTablero()[i][j].getColor()));
+                            }
+                        }
+                    }
                     source.getChildren().add(imageView);
                     GridPane.setRowIndex(source, i);
                     GridPane.setColumnIndex(source, j);
@@ -197,10 +204,14 @@ public class JuegoController extends Controller implements Initializable {
     private void actualizarLosetasJugadores(){
         for(Jugadores j : Globales.getInstance().partida.getJugadores()){
             if(Globales.getInstance().jugador.getColor().equals(j.getColor())){
+                hBox_Loseta1Jugador.setStyle("-fx-background-color : "+asignarColor(j.getColor()));
+                hBox_Loseta2Jugador.setStyle("-fx-background-color : "+asignarColor(j.getColor()));
+                hBox_Loseta3Jugador.setStyle("-fx-background-color : "+asignarColor(j.getColor()));
                for(int i = 0; i<j.getLosetasRecolectores().size();i++){
                     ImageView imageView = new ImageView(new Image("/org/una/cacao_cliente/img/"+j.getLosetasRecolectores().get(i).getTipo()+".png"));
                     imageView.setFitHeight(100);
                     imageView.setFitWidth(100);
+                    
                     if(i==0){
                         hBox_Loseta1Jugador.getChildren().add(imageView); 
                     }
@@ -238,7 +249,7 @@ public class JuegoController extends Controller implements Initializable {
     private void actualizarValoresCajasJugadores(Jugadores j, VBox vb, Label lbl_nombre,
     Label lbl_monedas, Label lbl_rio, Label lbl_cacaos, Label lbl_soles){
         vb.setVisible(true);
-        vb.setStyle("-fx-border-color : "+asignarColor(j));
+        vb.setStyle("-fx-border-color : "+asignarColor(j.getColor()));
         lbl_nombre.setText(j.getNombre());
         lbl_monedas.setText(j.getMonedas()+"");
         lbl_rio.setText(j.getPuntosRio()+"");
@@ -247,9 +258,9 @@ public class JuegoController extends Controller implements Initializable {
     }
     
     
-    private String asignarColor(Jugadores j){
+    private String asignarColor(String valor){
         String color = "";
-        switch (j.getColor()) {
+        switch (valor) {
             case "Morado": color = "Purple"; break;
             case "Verde": color = "Green"; break;
             case "Azul": color = "Blue"; break;
@@ -406,7 +417,7 @@ public class JuegoController extends Controller implements Initializable {
                 cant = 1;
             }
             
-            if(losetaTemporal!=null && EvaluarColocarLoseta(rowIndex, colIndex, clasificacion, cant)){
+            if(source.getChildren().isEmpty() && losetaTemporal!=null && EvaluarColocarLoseta(rowIndex, colIndex, clasificacion, cant)){
                 source.getChildren().add(losetaTemporal);
                 GridPane.setColumnIndex(source, colIndex);
                 GridPane.setRowIndex(source, rowIndex);
