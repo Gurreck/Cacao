@@ -3,6 +3,7 @@ package org.una.cacao_cliente.utility;
 import org.una.cacao_cliente.App;
 import org.una.cacao_cliente.controllers.Controller;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -216,10 +217,14 @@ public class FlowController {
     }
 
     public void closeProgram(){
-        if(Globales.getInstance().comunicacion != null){
-            Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("salir", null, null));
         
+        if(Globales.getInstance().comunicacion != null){
+            List<Object> lstObject = new ArrayList<>();
+            lstObject.add(Globales.getInstance().jugador);
+            Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("salir", lstObject, null));
+            
         }
+        
        // mainStage.close();
     }
     

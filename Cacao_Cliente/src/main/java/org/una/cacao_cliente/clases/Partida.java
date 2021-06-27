@@ -1,5 +1,6 @@
 package org.una.cacao_cliente.clases;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 /**
@@ -12,7 +13,7 @@ public class Partida {
     private List<Losetas> baraja_losetasSelva;
     private Losetas[][] tablero;
     private String turno;
-
+    private boolean iniciado;
     public Partida() {
     }
 
@@ -20,12 +21,17 @@ public class Partida {
         this.jugadores = jugadores;
         this.baraja_losetasSelva = baraja_losetasSelva;
         this.tablero = tablero;
+        this.iniciado = false;
     }
 
     public void setJugadores(List<Jugadores> jugadores) {
         this.jugadores = jugadores;
     }
 
+    public void setIniciado(boolean iniciado) {
+        this.iniciado = iniciado;
+    }
+    
     public void setBaraja_losetasSelva(List<Losetas> baraja_losetasSelva) {
         this.baraja_losetasSelva = baraja_losetasSelva;
     }
@@ -50,6 +56,10 @@ public class Partida {
         return tablero;
     }
 
+    public boolean getIniciado() {
+        return iniciado;
+    }
+    
     public String getTurno() {
         return turno;
     }
@@ -76,8 +86,28 @@ public class Partida {
             }
             
             CrearLosetasSelva(jugadores.size());
+            
+            //Ordena el arreglo segun la fecha de nacimiento de los jugadores, para establecer el orden incial
+            jugadores.sort((d1,d2) -> d1.getFechaNacimiento().compareTo(d2.getFechaNacimiento()));
+            turno = jugadores.get(0).getColor();
+            iniciado = true;
             return true;
         }
+    }
+    public void PasarTurno(){
+                       
+        for (int i = 0; i < jugadores.size(); i++) {
+            if (jugadores.get(i).getColor().equals(turno)) {
+                if (i+1 < jugadores.size()) {
+                    turno = jugadores.get(i+1).getColor();
+                }
+                else{
+                    turno = jugadores.get(0).getColor();
+                }                
+                break;
+            }
+        }
+        
     }
     
     public void CrearLosetasRecolectores(int pos, int CantJugadores){
@@ -239,9 +269,45 @@ public class Partida {
         baraja_losetasSelva.remove(15); //Remueve 1 templo
     }
     
+    public void validarLosetaSelva(int fila, int col){
+        if(tablero[fila-1][col] != null){    //arriba
+            for(int i = 0; i < jugadores.size();i++){
+                if(jugadores.get(i).getColor().equals(tablero[fila-1][col].getColor())){
+                   EvaluarColocarLosetaPos(jugadores.get(i), fila, col, tablero[fila-1][col].getAbajo());
+                   break;
+                }
+            }
+        }
+        if(tablero[fila+1][col] != null){    //abajo
+            for(int i = 0; i < jugadores.size();i++){
+                if(jugadores.get(i).getColor().equals(tablero[fila+1][col].getColor())){
+                   EvaluarColocarLosetaPos(jugadores.get(i), fila, col, tablero[fila+1][col].getArriba());
+                   break;
+                }
+            }
+        }
+        if(tablero[fila][col-1] != null){    //Izquierda
+            for(int i = 0; i < jugadores.size();i++){
+                if(jugadores.get(i).getColor().equals(tablero[fila][col-1].getColor())){
+                   EvaluarColocarLosetaPos(jugadores.get(i), fila, col, tablero[fila][col-1].getDerecha());
+                   break;
+                }
+            }
+        }
+        if(tablero[fila][col+1] != null){ // Derecha
+            for(int i = 0; i < jugadores.size();i++){
+                if(jugadores.get(i).getColor().equals(tablero[fila][col+1].getColor())){
+                   EvaluarColocarLosetaPos(jugadores.get(i), fila, col, tablero[fila][col+1].getIzquierda());
+                   break;
+                }
+            }
+        }
+    }
+    
     public void validarLosetaRecolector(Jugadores j, int fila, int col){
         Losetas loseta = tablero[fila][col];
-        
+        List<String> orden = new ArrayList();
+        System.out.println("x:"+fila + ", y:"+col);
         for(int i = 0; i < jugadores.size();i++){
             if(jugadores.get(i).getColor().equals(j.getColor())){
                 j = jugadores.get(i);
@@ -250,92 +316,110 @@ public class Partida {
         }
         
         if(tablero[fila-1][col] != null){    //arriba
-            EvaluarColocarLosetaPos(j, fila-1, col,loseta.getArriba());
+            if(tablero[fila-1][col].getTipo().equals("Cacao1") || tablero[fila-1][col].getTipo().equals("Cacao2")){
+                orden.add("arriba");
+            } 
         }
         if(tablero[fila+1][col] != null){    //abajo
-            EvaluarColocarLosetaPos(j, fila+1, col, loseta.getAbajo());
+            if(tablero[fila+1][col].getTipo().equals("Cacao1") || tablero[fila+1][col].getTipo().equals("Cacao2")){
+                orden.add("abajo");
+            }
         }
         if(tablero[fila][col-1] != null){    //Izquierda
-            EvaluarColocarLosetaPos(j, fila, col-1, loseta.getIzquierda());
+            if(tablero[fila][col-1].getTipo().equals("Cacao1") || tablero[fila][col-1].getTipo().equals("Cacao2")){
+                orden.add("izquierda");
+            }
         }
         if(tablero[fila][col+1] != null){ // Derecha
-            EvaluarColocarLosetaPos(j, fila, col+1, loseta.getDerecha());
-        }
-    }
-    
-    private void EvaluarColocarLosetaPos(Jugadores jug, int i, int j, int cant){
-        for(int m=0;m<cant;m++){
-            if(tablero[i][j+1].getTipo().equals("Cacao1")){
-                if(jug.getCacaos()<5){
-                    jug.setCacaos(jug.getCacaos()+1);
-                }
-            }
-            else if(tablero[i][j+1].getTipo().equals("Cacao2")){
-                if(jug.getCacaos()<4){
-                    jug.setCacaos(jug.getCacaos()+2);
-                }else if(jug.getCacaos()<5){
-                    jug.setCacaos(jug.getCacaos()+1);
-                }
-            }
-            else if(tablero[i][j+1].getTipo().equals("Mercado2")){
-                if(jug.getCacaos()>1){
-                   jug.setCacaos(jug.getCacaos()-2);
-                   jug.setMonedas(jug.getMonedas()+2);
-                }
-                else if(jug.getCacaos()==1){
-                    jug.setCacaos(jug.getCacaos()-1);
-                   jug.setMonedas(jug.getMonedas()+1);
-                }
-            }
-            else if(tablero[i][j+1].getTipo().equals("Mercado3")){
-                if(jug.getCacaos()>2){
-                   jug.setCacaos(jug.getCacaos()-3);
-                   jug.setMonedas(jug.getMonedas()+3);
-                }
-                else if(jug.getCacaos()==2){
-                    jug.setCacaos(jug.getCacaos()-2);
-                   jug.setMonedas(jug.getMonedas()+2);
-                }
-                else if(jug.getCacaos()==1){
-                    jug.setCacaos(jug.getCacaos()-1);
-                   jug.setMonedas(jug.getMonedas()+1);
-                }
-            }
-            else if(tablero[i][j+1].getTipo().equals("Mercado4")){
-                if(jug.getCacaos()>3){
-                   jug.setCacaos(jug.getCacaos()-4);
-                   jug.setMonedas(jug.getMonedas()+4);
-                }
-                else if(jug.getCacaos()==3){
-                   jug.setCacaos(jug.getCacaos()-3);
-                   jug.setMonedas(jug.getMonedas()+3);
-                }
-                else if(jug.getCacaos()==2){
-                    jug.setCacaos(jug.getCacaos()-2);
-                   jug.setMonedas(jug.getMonedas()+2);
-                }
-                else if(jug.getCacaos()==1){
-                    jug.setCacaos(jug.getCacaos()-1);
-                   jug.setMonedas(jug.getMonedas()+1);
-                }
-            }
-            else if(tablero[i][j+1].getTipo().equals("Mina1")){
-                jug.setMonedas(jug.getMonedas()+1);
-            }
-            else if(tablero[i][j+1].getTipo().equals("Mina2")){
-                jug.setMonedas(jug.getMonedas()+2);
-            }
-            else if(tablero[i][j+1].getTipo().equals("Agua")){
-                if(jug.getPuntosRio()<17){
-                    jug.setPuntosRio(jug.getPuntosRio()+4);
-                }
-            }
-            else if(tablero[i][j+1].getTipo().equals("Solar")){
-               /* if(jug.getSolares()<3){
-                    jug.setSolares(jug.getSolares()+1);
-                }*/
+            if(tablero[fila][col+1].getTipo().equals("Cacao1") || tablero[fila][col+1].getTipo().equals("Cacao2")){
+                orden.add("derecha");
             }
         }
         
+        if(!orden.contains("arriba")){
+            System.out.println("no tiene arriba");
+            orden.add("arriba");
+        }
+        if(!orden.contains("abajo")){
+            System.out.println("no tiene abajo");
+            orden.add("abajo");
+        }
+        if(!orden.contains("derecha")){
+            System.out.println("no tiene derecha");
+            orden.add("derecha");
+        }
+        if(!orden.contains("izquierda")){
+            System.out.println("no tiene izquierda");
+            orden.add("izquierda");
+        }      
+        
+        while(orden.size()>0){
+            if(orden.get(0).equals("arriba")){
+                EvaluarColocarLosetaPos(j, fila-1, col, loseta.getArriba());
+            }
+            else if(orden.get(0).equals("abajo")){
+                EvaluarColocarLosetaPos(j, fila+1, col, loseta.getAbajo());
+            }
+            else if(orden.get(0).equals("izquierda")){
+                EvaluarColocarLosetaPos(j, fila, col-1, loseta.getIzquierda());
+            }
+            else if(orden.get(0).equals("derecha")){
+                EvaluarColocarLosetaPos(j, fila, col+1, loseta.getDerecha());
+            }
+            orden.remove(0);
+        }
+    }
+    
+    private void EvaluarColocarLosetaPos(Jugadores jug, int i, int j, int cant){ 
+        if(tablero[i][j] != null){ 
+            for(int m=0;m<cant;m++){
+                if(tablero[i][j].getTipo().equals("Cacao1")){
+                    if(jug.getCacaos()<5){
+                        jug.setCacaos(jug.getCacaos()+1);
+                    }
+                }
+                else if(tablero[i][j].getTipo().equals("Cacao2")){
+                    if(jug.getCacaos()<4){
+                        jug.setCacaos(jug.getCacaos()+2);
+                    }else if(jug.getCacaos()<5){
+                        jug.setCacaos(jug.getCacaos()+1);
+                    }
+                }
+                else if(tablero[i][j].getTipo().equals("Mercado2")){
+                    if(jug.getCacaos()>0){
+                       jug.setCacaos(jug.getCacaos()-1);
+                       jug.setMonedas(jug.getMonedas()+2);
+                    }
+                }
+                else if(tablero[i][j].getTipo().equals("Mercado3")){
+                    if(jug.getCacaos()>0){
+                       jug.setCacaos(jug.getCacaos()-1);
+                       jug.setMonedas(jug.getMonedas()+3);
+                    }
+                }
+                else if(tablero[i][j].getTipo().equals("Mercado4")){
+                    if(jug.getCacaos()>0){
+                       jug.setCacaos(jug.getCacaos()-1);
+                       jug.setMonedas(jug.getMonedas()+4);
+                    }
+                }
+                else if(tablero[i][j].getTipo().equals("Mina1")){
+                    jug.setMonedas(jug.getMonedas()+1);
+                }
+                else if(tablero[i][j].getTipo().equals("Mina2")){
+                    jug.setMonedas(jug.getMonedas()+2);
+                }
+                else if(tablero[i][j].getTipo().equals("Agua")){
+                    if(jug.getPuntosRio()<17){
+                        jug.setPuntosRio(jug.getPuntosRio()+4);
+                    }
+                }
+                else if(tablero[i][j].getTipo().equals("Solar")){
+                   /* if(jug.getSolares()<3){
+                        jug.setSolares(jug.getSolares()+1);
+                    }*/
+                }
+            }
+        }
     }
 }

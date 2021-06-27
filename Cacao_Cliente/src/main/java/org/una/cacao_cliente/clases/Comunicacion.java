@@ -131,6 +131,20 @@ public class Comunicacion {
             msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "El color seleccionado se encuentra ocupado, por favor escoja otro");
             System.out.println(t.getOperacion());
         }
+        else if(t.getOperacion().equals("Partida iniciada")){ 
+            MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
+            msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "La partida ya se encuentra iniciada ");
+            System.out.println(t.getOperacion());
+        }
+        else if(t.getOperacion().equals("Jugador abandono")){ 
+            MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
+            FlowController.getInstance().goViewInStage("Menu",MenuController.getStage());
+            msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "Un jugador ha abandonado la partida");
+        }
+        else if(t.getOperacion().equals("Servidor Lleno")){ 
+            MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
+            msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "El servidor tiene la cantidad máxima de jugadores, por favor intente ingresar más tarde");
+        }
         }
        });
         

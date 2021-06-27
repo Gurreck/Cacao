@@ -63,6 +63,7 @@ class ClientHandler extends Thread
     final Socket s;
     Transferencia datos;
     Gson gson;
+    private boolean banderaSalaEspera = false;
 
     // Constructor
     public ClientHandler(Socket s, DataInputStream dis, DataOutputStream dos)
@@ -96,14 +97,7 @@ class ClientHandler extends Thread
                 if(Globales.getInstance().partida == null){       
                    Globales.getInstance().partida = new Partida(new ArrayList<>(), new ArrayList<>(), new Losetas[25][25],"");
                 }
-                else if(Globales.getInstance().partida.getJugadores().size() > 4){
-                    Transferencia t = new Transferencia("Servidor Lleno", new ArrayList<>() , null);
-                    toreturn = gson.toJson(t);
-
-                    dos.writeUTF(toreturn);
-                    this.s.close();
-                    break;
-                }
+                
                 
                 // receive the answer from client
                 received = dis.readUTF();
@@ -112,40 +106,75 @@ class ClientHandler extends Thread
                 
                 if(datos.getOperacion().equals("salir"))
                 {
-                    //FALTAN EVALUAR CASO EN LOS QUE EL JUGADOR ABANDONA EL JUEGO
-                    System.out.println("Client " + this.s + " sends exit...");
-                    System.out.println("Closing this connection.");
-                    Globales.getInstance().listaSockets.remove(s);
-                    this.s.close();
-                    System.out.println("Connection closed");
-                    //actualizarTodos();
-                    break;
+                    Jugadores jugador = gson.fromJson(gson.toJson(datos.getDatosOperacion().get(0)), Jugadores.class);
+                    if(Globales.getInstance().partida.getIniciado() == false){
+                        if(banderaSalaEspera == true){
+                            for(int i = 0; i < Globales.getInstance().partida.getJugadores().size();i++){
+                                if(Globales.getInstance().partida.getJugadores().get(i).getColor().equals(jugador.getColor())){
+                                   Globales.getInstance().partida.getJugadores().remove(i);
+                                    
+                                   break;
+                                }
+                            }
+                        }
+                        System.out.println("Client " + this.s + " sends exit...");
+                        System.out.println("Closing this connection.");
+                        Globales.getInstance().listaSockets.remove(s);
+                        this.s.close();
+                        System.out.println("Connection closed");
+                        actualizarTodos("Actualizar SalaEspera");
+                        System.out.println("Aqui no tiene que entrar joder");
+                        break;
+                    }else if(Globales.getInstance().partida.getIniciado() == true){
+                        Globales.getInstance().partida = new Partida(new ArrayList<>(), new ArrayList<>(), new Losetas[25][25],"");
+                        System.out.println("Client " + this.s + " sends exit...");
+                        System.out.println("Closing this connection.");
+                        Globales.getInstance().listaSockets.remove(s);
+                        this.s.close();
+                        System.out.println("Connection closed");
+                        actualizarTodos("Jugador abandono");
+                        break;
+                    }
+                    
+                    
                 }
                 else if(datos.getOperacion().equals("login")){
-                    Jugadores jugador = gson.fromJson(gson.toJson(datos.getDatosOperacion().get(0)), Jugadores.class);
-                    boolean band = false;
-                    for(int i = 0; i < Globales.getInstance().partida.getJugadores().size();i++){
-                        if(Globales.getInstance().partida.getJugadores().get(i).getColor().equals(jugador.getColor())){
-                           band = true;
-                           break;
-                        }
-                    }
-                    if(band){
-                        Transferencia t = new Transferencia("Color Ocupado", new ArrayList<>() , null);
+                    if(Globales.getInstance().partida.getJugadores().size() >= 4){
+                        Transferencia t = new Transferencia("Servidor Lleno", new ArrayList<>() , null);
                         toreturn = gson.toJson(t);
 
                         dos.writeUTF(toreturn);
+                    }else{
+                        if(Globales.getInstance().partida.getIniciado()==false){
+                            Jugadores jugador = gson.fromJson(gson.toJson(datos.getDatosOperacion().get(0)), Jugadores.class);
+                            boolean band = false;
+                            for(int i = 0; i < Globales.getInstance().partida.getJugadores().size();i++){
+                                if(Globales.getInstance().partida.getJugadores().get(i).getColor().equals(jugador.getColor())){
+                                   band = true;
+                                   break;
+                                }
+                            }
+                            if(band){
+                                Transferencia t = new Transferencia("Color Ocupado", new ArrayList<>() , null);
+                                toreturn = gson.toJson(t);
+
+                                dos.writeUTF(toreturn);
+                            }
+                            else{
+                                Globales.getInstance().partida.getJugadores().add(jugador);
+                                Transferencia t = new Transferencia("Ir SalaEspera", new ArrayList<>() , null);
+                                toreturn = gson.toJson(t);
+                                banderaSalaEspera = true;
+                                dos.writeUTF(toreturn);
+                                actualizarTodos("Actualizar SalaEspera");
+                            } 
+                        }else{
+                            Transferencia t = new Transferencia("Partida iniciada", new ArrayList<>() , null);
+                            toreturn = gson.toJson(t);
+
+                            dos.writeUTF(toreturn);
+                        }
                     }
-                    else{
-                        Globales.getInstance().partida.getJugadores().add(jugador);
-                        Transferencia t = new Transferencia("Ir SalaEspera", new ArrayList<>() , null);
-                        toreturn = gson.toJson(t);
-                        
-                        dos.writeUTF(toreturn);
-                        actualizarTodos("Actualizar SalaEspera");
-                    }
-                    
-                    
                 }
                 else if(datos.getOperacion().equals("aceptarPartida")){
                     Jugadores jugador = gson.fromJson(gson.toJson(datos.getDatosOperacion().get(0)), Jugadores.class);
@@ -166,6 +195,8 @@ class ClientHandler extends Thread
                 else if(datos.getOperacion().equals("iniciarPartida")){
                     boolean resultado = Globales.getInstance().partida.verificarIniciarPartida();
                     if(resultado){
+                        banderaSalaEspera = false;
+                        Globales.getInstance().partida.setIniciado(true);
                         actualizarTodos("Ir Juego");
                     }
                     else{
@@ -176,6 +207,7 @@ class ClientHandler extends Thread
                     }
                 }
                 else if(datos.getOperacion().equals("colocarLoseta")){
+                   
                     Jugadores jugador = gson.fromJson(gson.toJson(datos.getDatosOperacion().get(0)), Jugadores.class);
                     System.out.println(datos.getDatosOperacion().get(1)+" | " + datos.getDatosOperacion().get(2));
                     

@@ -13,7 +13,7 @@ public class Partida {
     private List<Losetas> baraja_losetasSelva;
     private Losetas[][] tablero;
     private String turno;
-
+    private boolean iniciado;
     public Partida() {
     }
 
@@ -21,12 +21,17 @@ public class Partida {
         this.jugadores = jugadores;
         this.baraja_losetasSelva = baraja_losetasSelva;
         this.tablero = tablero;
+        this.iniciado = false;
     }
 
     public void setJugadores(List<Jugadores> jugadores) {
         this.jugadores = jugadores;
     }
 
+    public void setIniciado(boolean iniciado) {
+        this.iniciado = iniciado;
+    }
+    
     public void setBaraja_losetasSelva(List<Losetas> baraja_losetasSelva) {
         this.baraja_losetasSelva = baraja_losetasSelva;
     }
@@ -51,6 +56,10 @@ public class Partida {
         return tablero;
     }
 
+    public boolean getIniciado() {
+        return iniciado;
+    }
+    
     public String getTurno() {
         return turno;
     }
@@ -81,6 +90,7 @@ public class Partida {
             //Ordena el arreglo segun la fecha de nacimiento de los jugadores, para establecer el orden incial
             jugadores.sort((d1,d2) -> d1.getFechaNacimiento().compareTo(d2.getFechaNacimiento()));
             turno = jugadores.get(0).getColor();
+            iniciado = true;
             return true;
         }
     }
@@ -97,6 +107,7 @@ public class Partida {
                 break;
             }
         }
+        
     }
     
     public void CrearLosetasRecolectores(int pos, int CantJugadores){
