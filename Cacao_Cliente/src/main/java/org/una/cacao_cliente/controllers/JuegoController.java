@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,6 +29,7 @@ import org.una.cacao_cliente.clases.Jugadores;
 import org.una.cacao_cliente.clases.Losetas;
 import org.una.cacao_cliente.clases.Transferencia;
 import org.una.cacao_cliente.utility.FlowController;
+import org.una.cacao_cliente.utility.Mensaje;
 
 /**
  * FXML Controller class
@@ -92,6 +94,8 @@ public class JuegoController extends Controller implements Initializable {
     @FXML
     private Label lbl_jugador4_sol;
     @FXML
+    private Label lbl_turno;
+    @FXML
     private HBox hBox_Loseta1Jugador;
     @FXML
     private HBox hBox_Loseta2Jugador;
@@ -103,12 +107,17 @@ public class JuegoController extends Controller implements Initializable {
     private HBox hBox_LosetaSelva2;
     @FXML
     private HBox hBox_LosetaSelva3;
+    @FXML
+    private Button btn_colocar_loseta;
+    
     
     private ImageView losetaTemporal;
     private boolean rotarLoseta;
     private boolean losetaColocada;
+    private boolean recolectorColocado;
     private String nombreLosetaColocada = "";
     private Losetas losetaTemporalTablero = new Losetas();
+    Mensaje msg = new Mensaje();
     /**
      * Initializes the controller class.
      */
@@ -149,6 +158,21 @@ public class JuegoController extends Controller implements Initializable {
         hBox_LosetaSelva1.getChildren().clear();
         hBox_LosetaSelva2.getChildren().clear();
         hBox_LosetaSelva3.getChildren().clear();
+        
+        for (int i = 0; i < Globales.getInstance().partida.getJugadores().size(); i++) { //Establece el label del turno con el nombre del jugador correspondiente            
+            if (Globales.getInstance().partida.getJugadores().get(i).getColor().equals(Globales.getInstance().partida.getTurno())) {
+                lbl_turno.setText(Globales.getInstance().partida.getJugadores().get(i).getNombre());                
+                break;
+            }            
+        }
+        
+        if (Globales.getInstance().partida.getTurno().equals(Globales.getInstance().jugador.getColor())) {
+            btn_colocar_loseta.setVisible(true);
+        }
+        else {
+            btn_colocar_loseta.setVisible(false);
+        }
+        
         limpiarTablero();
     }
     
@@ -305,6 +329,37 @@ public class JuegoController extends Controller implements Initializable {
         return posibilidad;
     }
     
+    private String ValidarCamposSelva(){ //Valida si hay campos posibles donde poner una loseta de selva
+        
+        Losetas[][] tablero = Globales.getInstance().partida.getTablero();
+        int Contador = 0; //Lleva la cuenta de recolectores adyacentes al espacio en blanco, para verificar si se puede colocar una loseta de selva
+        
+        for (int i = 0; i < 25 ; i++) {
+            for (int j = 0; j < 25 ; j++) {
+                Contador = 0;
+                if (tablero[i][j] == null) {                    
+                    if (i < 24 && tablero[i+1][j] != null && tablero[i+1][j].getClasificacion().equals("Recolector")) {//Abajo
+                        Contador+=1;
+                    }
+                    if (i > 0 && tablero[i-1][j] != null && tablero[i-1][j].getClasificacion().equals("Recolector")) {//Arriba
+                        Contador+=1;
+                    }
+                    if (j < 24 && tablero[i][j+1] != null && tablero[i][j+1].getClasificacion().equals("Recolector")) {//Derecha
+                        Contador+=1;
+                    }
+                    if (j > 0 && tablero[i][j-1] != null && tablero[i][j-1].getClasificacion().equals("Recolector")) {//Izquierda
+                        Contador+=1;
+                    }
+                    
+                    if (Contador >= 2) {
+                        return "No pasar turno";
+                    }
+                }
+            }
+        }
+        return "Pasar turno";
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -378,83 +433,150 @@ public class JuegoController extends Controller implements Initializable {
     @FXML
     private void escogerLoseta1Jugador(MouseEvent event) {
         if(!hBox_Loseta1Jugador.getChildren().isEmpty() && !losetaColocada){
-            rotarLoseta = true;
-            losetaTemporal = (ImageView) hBox_Loseta1Jugador.getChildren().get(0);
-            nombreLosetaColocada = "loseta1Jugador";
-            List<Losetas> losetasJugador = null;
-            for(Jugadores j : Globales.getInstance().partida.getJugadores()){
-                if(j.getColor().equals(Globales.getInstance().jugador.getColor())){
-                    losetasJugador = j.getLosetasRecolectores();
-                    break;
+            if (Globales.getInstance().partida.getTurno().equals(Globales.getInstance().jugador.getColor())) {
+                
+                if (!recolectorColocado) {
+                    rotarLoseta = true;
+                    losetaTemporal = (ImageView) hBox_Loseta1Jugador.getChildren().get(0);
+                    nombreLosetaColocada = "loseta1Jugador";
+                    List<Losetas> losetasJugador = null;
+                    for(Jugadores j : Globales.getInstance().partida.getJugadores()){
+                        if(j.getColor().equals(Globales.getInstance().jugador.getColor())){
+                            losetasJugador = j.getLosetasRecolectores();
+                            break;
+                        }
+                    }
+                    losetaTemporalTablero = losetasJugador.get(0);
                 }
+                else{
+                    msg.alerta(root, "Alerta", "Ya se ha colocado una loseta de recolector en este turno, por favor coloque una loseta de selva");
+                }                
             }
-            losetaTemporalTablero = losetasJugador.get(0);
+            else {                
+                msg.alerta(root, "Alerta", "No es su turno, por favor espere");
+            }            
+            
         }
     }
 
     @FXML
     private void escogerLoseta2Jugador(MouseEvent event) {
         if(!hBox_Loseta2Jugador.getChildren().isEmpty() && !losetaColocada){
-            rotarLoseta = true;
-            losetaTemporal = (ImageView) hBox_Loseta2Jugador.getChildren().get(0);
-            nombreLosetaColocada = "loseta2Jugador";
-            List<Losetas> losetasJugador = null;
-            for(Jugadores j : Globales.getInstance().partida.getJugadores()){
-                if(j.getColor().equals(Globales.getInstance().jugador.getColor())){
-                    losetasJugador = j.getLosetasRecolectores();
-                    break;
+            if (Globales.getInstance().partida.getTurno().equals(Globales.getInstance().jugador.getColor())) {
+                if (!recolectorColocado) {
+                    rotarLoseta = true;
+                    losetaTemporal = (ImageView) hBox_Loseta2Jugador.getChildren().get(0);
+                    nombreLosetaColocada = "loseta2Jugador";
+                    List<Losetas> losetasJugador = null;
+                    for(Jugadores j : Globales.getInstance().partida.getJugadores()){
+                        if(j.getColor().equals(Globales.getInstance().jugador.getColor())){
+                            losetasJugador = j.getLosetasRecolectores();
+                            break;
+                        }
+                    }
+                    losetaTemporalTablero = losetasJugador.get(1);
                 }
+                else{
+                    msg.alerta(root, "Alerta", "Ya se ha colocado una loseta de recolector en este turno, por favor coloque una loseta de selva");
+                }
+                
             }
-            losetaTemporalTablero = losetasJugador.get(1);
+            else {                
+                msg.alerta(root, "Alerta", "No es su turno, por favor espere");
+            }                        
         }
     }
 
     @FXML
     private void escogerLoseta3Jugador(MouseEvent event) {
         if(!hBox_Loseta3Jugador.getChildren().isEmpty() && !losetaColocada){
-            rotarLoseta = true;
-            losetaTemporal = (ImageView) hBox_Loseta3Jugador.getChildren().get(0);
-            nombreLosetaColocada = "loseta3Jugador";
-            List<Losetas> losetasJugador = null;
-            for(Jugadores j : Globales.getInstance().partida.getJugadores()){
-                if(j.getColor().equals(Globales.getInstance().jugador.getColor())){
-                    losetasJugador = j.getLosetasRecolectores();
-                    break;
+            if (Globales.getInstance().partida.getTurno().equals(Globales.getInstance().jugador.getColor())) {
+                if (!recolectorColocado) {
+                    rotarLoseta = true;
+                    losetaTemporal = (ImageView) hBox_Loseta3Jugador.getChildren().get(0);
+                    nombreLosetaColocada = "loseta3Jugador";
+                    List<Losetas> losetasJugador = null;
+                    for(Jugadores j : Globales.getInstance().partida.getJugadores()){
+                        if(j.getColor().equals(Globales.getInstance().jugador.getColor())){
+                            losetasJugador = j.getLosetasRecolectores();
+                            break;
+                        }
+                    }
+                    losetaTemporalTablero = losetasJugador.get(2);
                 }
+                else{
+                    msg.alerta(root, "Alerta", "Ya se ha colocado una loseta de recolector en este turno, por favor coloque una loseta de selva");
+                }                
             }
-            losetaTemporalTablero = losetasJugador.get(2);
+            else {                
+                msg.alerta(root, "Alerta", "No es su turno, por favor espere");
+            }            
+            
         }
     }
 
     @FXML
     private void escogerLosetaSelva1(MouseEvent event) {
         if(!hBox_LosetaSelva1.getChildren().isEmpty() && !losetaColocada){
-            rotarLoseta = false;
-            losetaTemporal = (ImageView) hBox_LosetaSelva1.getChildren().get(0);
-            nombreLosetaColocada = "losetaSelva1";
+            if (Globales.getInstance().partida.getTurno().equals(Globales.getInstance().jugador.getColor())) {
+                if(recolectorColocado){
+                    rotarLoseta = false;
+                    losetaTemporal = (ImageView) hBox_LosetaSelva1.getChildren().get(0);
+                    nombreLosetaColocada = "losetaSelva1";
+                }
+                else{
+                   msg.alerta(root, "Alerta", "Coloque una loseta de recolector antes"); 
+                }                
+            }
+            else {                
+                msg.alerta(root, "Alerta", "No es su turno, por favor espere");
+            }            
+            
         }
     }
 
     @FXML
     private void escogerLosetaSelva2(MouseEvent event) {
         if(!hBox_LosetaSelva2.getChildren().isEmpty() && !losetaColocada){
-            rotarLoseta = false;
-            losetaTemporal = (ImageView) hBox_LosetaSelva2.getChildren().get(0);
-            nombreLosetaColocada = "losetaSelva2";
+            if (Globales.getInstance().partida.getTurno().equals(Globales.getInstance().jugador.getColor())) {
+                if(recolectorColocado){
+                    rotarLoseta = false;
+                    losetaTemporal = (ImageView) hBox_LosetaSelva2.getChildren().get(0);
+                    nombreLosetaColocada = "losetaSelva2";
+                }
+                else{
+                    msg.alerta(root, "Alerta", "Coloque una loseta de recolector antes");
+                }                
+            }
+            else {                
+                msg.alerta(root, "Alerta", "No es su turno, por favor espere");
+            }                        
         }
     }
 
     @FXML
     private void escogerLosetaSelva3(MouseEvent event) {
-        if(!hBox_LosetaSelva3.getChildren().isEmpty() && !losetaColocada){
-            rotarLoseta = false;
-            losetaTemporal = (ImageView) hBox_LosetaSelva3.getChildren().get(0);
-            nombreLosetaColocada = "losetaSelva3";
+        if(!hBox_LosetaSelva3.getChildren().isEmpty() && !losetaColocada ){
+            if (Globales.getInstance().partida.getTurno().equals(Globales.getInstance().jugador.getColor())) {
+                if(recolectorColocado){
+                    rotarLoseta = false;
+                    losetaTemporal = (ImageView) hBox_LosetaSelva3.getChildren().get(0);
+                    nombreLosetaColocada = "losetaSelva3";
+                }
+                else{
+                    msg.alerta(root, "Alerta", "Coloque una loseta de recolector antes");
+                }                
+            }
+            else {                
+                msg.alerta(root, "Alerta", "No es su turno, por favor espere");
+            }            
         }
     }
 
     @FXML
     private void btnColocarOnAction(ActionEvent event) {
+        
+        String PasarTurno = "No pasar turno"; 
         if(losetaTemporal != null && losetaColocada){
             
             Losetas[][] tablero = Globales.getInstance().partida.getTablero();
@@ -472,26 +594,35 @@ public class JuegoController extends Controller implements Initializable {
             if(nombreLosetaColocada.equals("loseta1Jugador")){
                 tablero[rowCount][columnCount] = losetasJugador.get(0);
                 losetasJugador.remove(losetasJugador.get(0));
+                recolectorColocado = true;
+                PasarTurno = ValidarCamposSelva();                
             }
             else if(nombreLosetaColocada.equals("loseta2Jugador")){
                 tablero[rowCount][columnCount] = losetasJugador.get(1);
                 losetasJugador.remove(losetasJugador.get(1));
+                recolectorColocado = true;
+                PasarTurno = ValidarCamposSelva();
             }
             else if(nombreLosetaColocada.equals("loseta3Jugador")){
                 tablero[rowCount][columnCount] = losetasJugador.get(2);
                 losetasJugador.remove(losetasJugador.get(2));
+                recolectorColocado = true;
+                PasarTurno = ValidarCamposSelva();
             }
             else if(nombreLosetaColocada.equals("losetaSelva1")){
                 tablero[rowCount][columnCount] = losetasSelva.get(0);
                 losetasSelva.remove(losetasSelva.get(0));
+                recolectorColocado = false;
             }
             else if(nombreLosetaColocada.equals("losetaSelva2")){
                 tablero[rowCount][columnCount] = losetasSelva.get(1);
                 losetasSelva.remove(losetasSelva.get(1));
+                recolectorColocado = false;
             }
             else{
                 tablero[rowCount][columnCount] = losetasSelva.get(2);
                 losetasSelva.remove(losetasSelva.get(2));
+                recolectorColocado = false;
             }
             
             tablero[rowCount][columnCount].setAngulo(losetaTemporalTablero.getAngulo());
@@ -515,6 +646,12 @@ public class JuegoController extends Controller implements Initializable {
             }else{
                 lstObject.add("Selva");
             }
+            
+            if (PasarTurno.equals("Pasar turno")) {
+                recolectorColocado = false;
+            }
+            
+            lstObject.add(PasarTurno);
             
             Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("colocarLoseta", lstObject, Globales.getInstance().partida));
             losetaTemporal = null;

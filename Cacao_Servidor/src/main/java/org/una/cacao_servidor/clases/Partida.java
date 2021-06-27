@@ -77,7 +77,25 @@ public class Partida {
             }
             
             CrearLosetasSelva(jugadores.size());
+            
+            //Ordena el arreglo segun la fecha de nacimiento de los jugadores, para establecer el orden incial
+            jugadores.sort((d1,d2) -> d1.getFechaNacimiento().compareTo(d2.getFechaNacimiento()));
+            turno = jugadores.get(0).getColor();
             return true;
+        }
+    }
+    public void PasarTurno(){
+                       
+        for (int i = 0; i < jugadores.size(); i++) {
+            if (jugadores.get(i).getColor().equals(turno)) {
+                if (i+1 < jugadores.size()) {
+                    turno = jugadores.get(i+1).getColor();
+                }
+                else{
+                    turno = jugadores.get(0).getColor();
+                }                
+                break;
+            }
         }
     }
     
@@ -341,7 +359,7 @@ public class Partida {
         }
     }
     
-    private void EvaluarColocarLosetaPos(Jugadores jug, int i, int j, int cant){
+    private void EvaluarColocarLosetaPos(Jugadores jug, int i, int j, int cant){ 
         if(tablero[i][j] != null){ 
             for(int m=0;m<cant;m++){
                 if(tablero[i][j].getTipo().equals("Cacao1")){

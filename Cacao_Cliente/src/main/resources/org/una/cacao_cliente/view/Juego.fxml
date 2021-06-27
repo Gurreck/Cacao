@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" styleClass="FondoJuego" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.JuegoController">
+<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" styleClass="FondoJuego" stylesheets="@../css/Style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.JuegoController">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -61,7 +61,7 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="7.0">
                      <children>
                         <Label styleClass="letraJuegoTurno" text="Turno:" />
-                        <Label styleClass="letraJuegoTurno" />
+                        <Label fx:id="lbl_turno" styleClass="letraJuegoTurno" />
                      </children>
                   </HBox>
                   <ScrollPane hvalue="0.5" pannable="true" prefHeight="720.0" prefWidth="852.0" stylesheets="@../css/Style.css" vvalue="0.5" VBox.vgrow="ALWAYS">
@@ -142,7 +142,7 @@
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" minWidth="262.0" prefHeight="97.0" prefWidth="318.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnColocarOnAction" style="-fx-background-color: none;">
+                              <Button fx:id="btn_colocar_loseta" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnColocarOnAction" style="-fx-background-color: none;">
                                  <graphic>
                                     <ImageView fitHeight="60.0" fitWidth="148.0" pickOnBounds="true" preserveRatio="true">
                                        <image>

@@ -131,7 +131,7 @@ public class Comunicacion {
             msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "El color seleccionado se encuentra ocupado, por favor escoja otro");
             System.out.println(t.getOperacion());
         }
-       }
+        }
        });
         
     }
