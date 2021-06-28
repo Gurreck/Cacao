@@ -75,6 +75,15 @@ public class MenuController extends Controller implements Initializable {
         combo_color.getItems().add("Verde Claro");
         combo_color.getItems().add("Turquesa");
         
+        combo_color.getItems().add("Verde fosforecente");
+        combo_color.getItems().add("Violeta");
+        combo_color.getItems().add("Fucsia");
+        combo_color.getItems().add("Rojo caramelo");
+        combo_color.getItems().add("Rojo vino");
+        combo_color.getItems().add("Ambar");
+        combo_color.getItems().add("Dorado");
+        
+        
         Globales.getInstance().comunicacion.escucharServidor();
     }    
 
@@ -95,7 +104,7 @@ public class MenuController extends Controller implements Initializable {
             Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
             Date nacimiento = Date.from(instant);
             
-            Globales.getInstance().jugador = new Jugadores(txt_nombre.getText(), nacimiento, combo_color.getValue(), new ArrayList<>(), 0, 0, -16, false);
+            Globales.getInstance().jugador = new Jugadores(txt_nombre.getText(), nacimiento, combo_color.getValue(), new ArrayList<>(), 0, 0, -10, false);
             
             List<Object> lstObject = new ArrayList<>();
             lstObject.add(Globales.getInstance().jugador);

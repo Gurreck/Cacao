@@ -14,6 +14,8 @@ public class Partida {
     private Losetas[][] tablero;
     private String turno;
     private boolean iniciado;
+    private String ganador;
+    
     public Partida() {
     }
 
@@ -22,6 +24,7 @@ public class Partida {
         this.baraja_losetasSelva = baraja_losetasSelva;
         this.tablero = tablero;
         this.iniciado = false;
+        this.ganador = "";
     }
 
     public void setJugadores(List<Jugadores> jugadores) {
@@ -62,6 +65,9 @@ public class Partida {
     
     public String getTurno() {
         return turno;
+    }
+    public String getGanador() {
+        return ganador;
     }
     
     public boolean verificarIniciarPartida(){

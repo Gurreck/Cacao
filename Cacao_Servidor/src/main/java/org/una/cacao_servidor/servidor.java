@@ -123,7 +123,7 @@ class ClientHandler extends Thread
                         this.s.close();
                         System.out.println("Connection closed");
                         actualizarTodos("Actualizar SalaEspera");
-                        System.out.println("Aqui no tiene que entrar joder");
+
                         break;
                     }else if(Globales.getInstance().partida.getIniciado() == true){
                         Globales.getInstance().partida = new Partida(new ArrayList<>(), new ArrayList<>(), new Losetas[25][25],"");
@@ -208,15 +208,31 @@ class ClientHandler extends Thread
                 }
                 else if(datos.getOperacion().equals("colocarLosetaRecolector")){
                    
+                    boolean QuedanCartas = true;
                     Jugadores jugador = gson.fromJson(gson.toJson(datos.getDatosOperacion().get(0)), Jugadores.class);
                     //System.out.println(datos.getDatosOperacion().get(1)+" | " + datos.getDatosOperacion().get(2));
                     
                     datos.getPartida().validarLosetaRecolector(jugador, (int)Math.round((double) datos.getDatosOperacion().get(1)), (int)Math.round((double) datos.getDatosOperacion().get(2)));
                         
-                    datos.getPartida().PasarTurno();
-                        
+                    datos.getPartida().PasarTurno();                                           
+                    
+                    QuedanCartas = datos.getPartida().QuedanLosetasRecolector(); //True si quedan cartas de recolectores por colocar
+                                                
+                    if (!QuedanCartas) {
+                        datos.getPartida().validarLosetaTemplo();
+                        Jugadores Ganador = datos.getPartida().PuntuacionFinal();
+                        datos.getPartida().setGanador(Ganador.getColor());
+                    }
+                    
                     Globales.getInstance().partida = datos.getPartida();
-                    actualizarTodos("Actualizar Juego");                    
+                    
+                    if (!QuedanCartas) {
+                        Globales.getInstance().partida.setIniciado(false);
+                        
+                        actualizarTodos("Fin de la partida");
+                    } else {
+                        actualizarTodos("Actualizar Juego");                    
+                    }                   
                 }
                 else if(datos.getOperacion().equals("colocarLosetaSelva")){
                    

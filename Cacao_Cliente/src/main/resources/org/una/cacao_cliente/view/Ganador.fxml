@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.GanadorController">
+<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.GanadorController">
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="50.0" styleClass="Fondo" stylesheets="@../css/Style.css" StackPane.alignment="CENTER">
          <children>
@@ -35,12 +35,12 @@
                                  <stops>
                                     <Stop>
                                        <color>
-                                          <Color red="0.44736841320991516" green="0.37073585391044617" blue="0.37073585391044617" />
+                                          <Color blue="0.37073585391044617" green="0.37073585391044617" red="0.44736841320991516" />
                                        </color>
                                     </Stop>
                                     <Stop offset="1.0">
                                        <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                          <Color blue="1.0" green="1.0" red="1.0" />
                                        </color>
                                     </Stop>
                                  </stops>
@@ -74,7 +74,7 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <HBox fx:id="vBox_tercero" spacing="7.0" visible="false">
+                  <HBox fx:id="vBox_tercero" spacing="7.0">
                      <children>
                         <Label fx:id="lbl_tercero" styleClass="letraJuegoTurno">
                            <HBox.margin>
@@ -96,7 +96,7 @@
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin></Label>
-                        <ImageView fitHeight="36.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                        <ImageView fitHeight="36.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../img/triste.png" />
                            </image>
@@ -110,15 +110,6 @@
             </HBox>
             <HBox alignment="CENTER" prefWidth="1200.0" spacing="7.0">
                <children>
-                  <Button fx:id="btn_volverJugar" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnVolverJugarOnAction" style="-fx-background-color: none;">
-                     <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../img/btn_volverJugar.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
                   <Button fx:id="btn_salir" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnSalirOnAction" style="-fx-background-color: none;">
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">

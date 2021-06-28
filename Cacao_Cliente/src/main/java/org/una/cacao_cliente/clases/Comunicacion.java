@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.Socket;
 import javafx.application.Platform;
 import javafx.scene.layout.StackPane;
+import org.una.cacao_cliente.controllers.GanadorController;
 import org.una.cacao_cliente.controllers.JuegoController;
 import org.una.cacao_cliente.controllers.MenuController;
 import org.una.cacao_cliente.controllers.SalaEsperaController;
@@ -97,54 +98,60 @@ public class Comunicacion {
         Platform.runLater(new Runnable() {
         @Override public void run() {
         
-        if(t.getOperacion().equals("Ir SalaEspera")){
-          
-            MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
-            FlowController.getInstance().goViewInStage("SalaEspera",MenuController.getStage());
-            SalaEsperaController SalaEsperaController = (SalaEsperaController) FlowController.getInstance().getController("SalaEspera");
-            SalaEsperaController.ActualizarVista();
-        }
-        else if(t.getOperacion().equals("Ir Juego")){ 
+            if(t.getOperacion().equals("Ir SalaEspera")){
 
-            SalaEsperaController SalaEsperaController = (SalaEsperaController) FlowController.getInstance().getController("SalaEspera");
-            FlowController.getInstance().goViewInStage("Juego",SalaEsperaController.getStage());
-            JuegoController JuegoController = (JuegoController) FlowController.getInstance().getController("Juego");
-            JuegoController.ActualizarVista();
-        }
-        else if(t.getOperacion().equals("Actualizar SalaEspera")){
+                MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
+                FlowController.getInstance().goViewInStage("SalaEspera",MenuController.getStage());
+                SalaEsperaController SalaEsperaController = (SalaEsperaController) FlowController.getInstance().getController("SalaEspera");
+                SalaEsperaController.ActualizarVista();
+            }
+            else if(t.getOperacion().equals("Ir Juego")){ 
 
-            SalaEsperaController SalaEsperaController = (SalaEsperaController) FlowController.getInstance().getController("SalaEspera");
-            SalaEsperaController.ActualizarVista();
-        }
-        else if(t.getOperacion().equals("Actualizar Juego")){ 
+                SalaEsperaController SalaEsperaController = (SalaEsperaController) FlowController.getInstance().getController("SalaEspera");
+                FlowController.getInstance().goViewInStage("Juego",SalaEsperaController.getStage());
+                JuegoController JuegoController = (JuegoController) FlowController.getInstance().getController("Juego");
+                JuegoController.ActualizarVista();
+            }
+            else if(t.getOperacion().equals("Actualizar SalaEspera")){
 
-            JuegoController JuegoController = (JuegoController) FlowController.getInstance().getController("Juego");
-            JuegoController.ActualizarVista();
-        }
-        else if(t.getOperacion().equals("Faltan AceptarPartida")){ 
-            SalaEsperaController SalaEsperaController = (SalaEsperaController) FlowController.getInstance().getController("SalaEspera");
-            msg.alerta((StackPane)(SalaEsperaController.getRoot()), "Alerta", "Faltan jugadores por aceptar la partida, por favor espere");
-            System.out.println(t.getOperacion());
-        }
-        else if(t.getOperacion().equals("Color Ocupado")){ 
-            MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
-            msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "El color seleccionado se encuentra ocupado, por favor escoja otro");
-            System.out.println(t.getOperacion());
-        }
-        else if(t.getOperacion().equals("Partida iniciada")){ 
-            MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
-            msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "La partida ya se encuentra iniciada ");
-            System.out.println(t.getOperacion());
-        }
-        else if(t.getOperacion().equals("Jugador abandono")){ 
-            MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
-            FlowController.getInstance().goViewInStage("Menu",MenuController.getStage());
-            msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "Un jugador ha abandonado la partida");
-        }
-        else if(t.getOperacion().equals("Servidor Lleno")){ 
-            MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
-            msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "El servidor tiene la cantidad máxima de jugadores, por favor intente ingresar más tarde");
-        }
+                SalaEsperaController SalaEsperaController = (SalaEsperaController) FlowController.getInstance().getController("SalaEspera");
+                SalaEsperaController.ActualizarVista();
+            }
+            else if(t.getOperacion().equals("Actualizar Juego")){ 
+
+                JuegoController JuegoController = (JuegoController) FlowController.getInstance().getController("Juego");
+                JuegoController.ActualizarVista();
+            }
+            else if(t.getOperacion().equals("Faltan AceptarPartida")){ 
+                SalaEsperaController SalaEsperaController = (SalaEsperaController) FlowController.getInstance().getController("SalaEspera");
+                msg.alerta((StackPane)(SalaEsperaController.getRoot()), "Alerta", "Faltan jugadores por aceptar la partida, por favor espere");
+                System.out.println(t.getOperacion());
+            }
+            else if(t.getOperacion().equals("Color Ocupado")){ 
+                MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
+                msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "El color seleccionado se encuentra ocupado, por favor escoja otro");
+                System.out.println(t.getOperacion());
+            }
+            else if(t.getOperacion().equals("Partida iniciada")){ 
+                MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
+                msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "La partida ya se encuentra iniciada ");
+                System.out.println(t.getOperacion());
+            }
+            else if(t.getOperacion().equals("Jugador abandono")){ 
+                MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
+                FlowController.getInstance().goViewInStage("Menu",MenuController.getStage());
+                msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "Un jugador ha abandonado la partida");
+            }
+            else if(t.getOperacion().equals("Servidor Lleno")){ 
+                MenuController MenuController = (MenuController) FlowController.getInstance().getController("Menu");
+                msg.alerta((StackPane)(MenuController.getRoot()), "Alerta", "El servidor tiene la cantidad máxima de jugadores, por favor intente ingresar más tarde");
+            }
+            else if(t.getOperacion().equals("Fin de la partida")){                                                 
+                JuegoController JuegoController = (JuegoController) FlowController.getInstance().getController("Juego");  
+                FlowController.getInstance().goViewInStage("Ganador",JuegoController.getStage());
+                GanadorController GanadorController = (GanadorController) FlowController.getInstance().getController("Ganador");
+                GanadorController.ActualizarVista();
+            }
         }
        });
         

@@ -16,6 +16,7 @@ public class Jugadores {
     private int cacaos;
     private int monedas;
     private int puntosRio;
+    private int solares;
     private List<Losetas> losetasRecolectores;
     
     public Jugadores(){
@@ -32,6 +33,15 @@ public class Jugadores {
         this.monedas = monedas;
         this.puntosRio = puntosRio;
         this.aceptarPartida = aceptarPartida;
+        this.solares = 0;
+    }
+
+    public int getSolares() {
+        return solares;
+    }
+
+    public void setSolares(int solares) {
+        this.solares = solares;
     }
 
     public void setNombre(String nombre) {

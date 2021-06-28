@@ -255,8 +255,8 @@ public class JuegoController extends Controller implements Initializable {
         lbl_nombre.setText(j.getNombre());
         lbl_monedas.setText(j.getMonedas()+"");
         lbl_rio.setText(j.getPuntosRio()+"");
-        lbl_cacaos.setText(j.getCacaos()+"");
-        //lbl_soles.setText(j.getSoles()+"");
+        lbl_cacaos.setText(j.getCacaos()+"");        
+        lbl_soles.setText(j.getSolares()+"");
     }
     
     
@@ -275,7 +275,14 @@ public class JuegoController extends Controller implements Initializable {
             case "Cafe": color = "Brown"; break;
             case "Rosa": color = "Pink"; break;
             case "Verde Claro": color = "LIGHTGREEN"; break;
-            case "Turquesa": color = "TURQUOISE"; break;
+            case "Turquesa": color = "TURQUOISE"; break;            
+            case "Verde fosforecente": color = "#5eff00"; break;
+            case "Violeta": color = "#6a6ba8"; break;
+            case "Fucsia": color = "#f500cc"; break;
+            case "Rojo caramelo": color = "#bf1143"; break;
+            case "Rojo vino": color = "#9c4646"; break;
+            case "Ambar": color = "#CE8121"; break;
+            case "Dorado": color = "#b68d2c"; break;
             default: break;
         }
         return color;
@@ -346,6 +353,9 @@ public class JuegoController extends Controller implements Initializable {
         
         Losetas[][] tablero = Globales.getInstance().partida.getTablero();
         int Contador = 0; //Lleva la cuenta de recolectores adyacentes al espacio en blanco, para verificar si se puede colocar una loseta de selva
+        if (Globales.getInstance().partida.getBaraja_losetasSelva().isEmpty()) {
+            return "Pasar turno";
+        }
         
         for (int i = 0; i < 25 ; i++) {
             for (int j = 0; j < 25 ; j++) {

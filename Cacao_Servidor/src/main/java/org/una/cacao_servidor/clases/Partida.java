@@ -14,6 +14,8 @@ public class Partida {
     private Losetas[][] tablero;
     private String turno;
     private boolean iniciado;
+    private String ganador;
+
     public Partida() {
     }
 
@@ -22,6 +24,7 @@ public class Partida {
         this.baraja_losetasSelva = baraja_losetasSelva;
         this.tablero = tablero;
         this.iniciado = false;
+        this.ganador = "";
     }
 
     public void setJugadores(List<Jugadores> jugadores) {
@@ -60,6 +63,14 @@ public class Partida {
         return iniciado;
     }
     
+    public String getGanador() {
+        return ganador;
+    }
+
+    public void setGanador(String ganador) {
+        this.ganador = ganador;
+    }        
+
     public String getTurno() {
         return turno;
     }
@@ -110,6 +121,144 @@ public class Partida {
         
     }
     
+    public boolean QuedanLosetasRecolector() { //True si quedan cartas de recolectores por colocar
+        boolean QuedanCartas = true;
+        for (int i = 0; i < jugadores.size(); i++) {
+            if (jugadores.get(i).getLosetasRecolectores().isEmpty()) {
+                QuedanCartas = false;
+            }
+            else {
+                QuedanCartas = true;
+                break;
+            }
+        }
+        return QuedanCartas;
+    }
+    
+    public void validarLosetaTemplo(){
+        
+        for (int i = 0; i < 25 ; i++) {
+            for (int j = 0; j < 25 ; j++) {
+                if (tablero[i][j] != null && tablero[i][j].getTipo().equals("Templo")) {
+                    
+                    int Mepples[] = new int[jugadores.size()];
+                    
+                    if (i < 24 && tablero[i+1][j] != null && tablero[i+1][j].getClasificacion().equals("Recolector")) {//Abajo                        
+                        for (int h = 0; h < jugadores.size() ; h++) {                            
+                            if (jugadores.get(h).getColor().equals(tablero[i+1][j].getColor())) {
+                                Mepples[h] += tablero[i+1][j].getAbajo();
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (i > 0 && tablero[i-1][j] != null && tablero[i-1][j].getClasificacion().equals("Recolector")) {//Arriba
+                        for (int h = 0; h < jugadores.size() ; h++) {                            
+                            if (jugadores.get(h).getColor().equals(tablero[i-1][j].getColor())) {
+                                Mepples[h] += tablero[i-1][j].getArriba();
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (j < 24 && tablero[i][j+1] != null && tablero[i][j+1].getClasificacion().equals("Recolector")) {//Derecha
+                        for (int h = 0; h < jugadores.size() ; h++) {                            
+                            if (jugadores.get(h).getColor().equals(tablero[i][j+1].getColor())) {
+                                Mepples[h] += tablero[i][j+1].getDerecha();
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (j > 0 && tablero[i][j-1] != null && tablero[i][j-1].getClasificacion().equals("Recolector")) {//Izquierda
+                        for (int h = 0; h < jugadores.size() ; h++) {                            
+                            if (jugadores.get(h).getColor().equals(tablero[i][j-1].getColor())) {
+                                Mepples[h] += tablero[i][j-1].getIzquierda();
+                                break;
+                            }
+                        }
+                    }
+                                        
+                    List<Integer> Ganadores = new ArrayList<Integer>();               
+                    int Mayor = 0;
+                    int Mayor2 = 0;
+                    
+                    for (int k = 0; k < Mepples.length; k++) {
+                        if (Mepples[k] > Mayor) {
+                            Mayor = Mepples[k];                            
+                        }
+                        if (Mepples[k] > Mayor2 && Mepples[k] < Mayor) {
+                            Mayor2 = Mepples[k];                            
+                        }                        
+                    }
+                    
+                    for (int k = 0; k < Mepples.length; k++) {
+                        if (Mepples[k] == Mayor) {
+                            Ganadores.add(k);
+                        }
+                    }
+                    
+                    if (Ganadores.size()==1) { //Solo un primer lugar                        
+                        
+                        //Se le asigna la recompensa de 6 monedas
+                        Jugadores PrimerLugar = jugadores.get(Ganadores.get(0));
+                        PrimerLugar.setMonedas(PrimerLugar.getMonedas()+6);   
+                        Ganadores.remove(0);//Se remueve de los ganadores, ya que ya se le asigno la recompensa
+                        
+                        //Se verifica el segundo lugar
+                        for (int k = 0; k < Mepples.length; k++) {
+                            if (Mepples[k] == Mayor2) {                                
+                                Ganadores.add(k);                                
+                            }
+                        }
+                        
+                        int Recompensa;
+                        if (Ganadores.size()==1) { //Si solo hay un segundo lugar, recompensa de 3 monedas
+                            Recompensa = 3;
+                        }
+                        else  { //Si hay un empate, recompensa de 1 moneda
+                            Recompensa = 1;
+                        }
+                        
+                        //Se asignan las recompensas respectivas.
+                        for (int k = 0; k < Ganadores.size(); k++) {
+                            jugadores.get(Ganadores.get(k)).setMonedas(jugadores.get(Ganadores.get(k)).getMonedas()+Recompensa);
+                        }
+                    }
+                    else {
+                        for (int k = 0; k < Ganadores.size(); k++) {
+                            jugadores.get(Ganadores.get(k)).setMonedas(jugadores.get(Ganadores.get(k)).getMonedas()+3);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    public Jugadores PuntuacionFinal(){
+        
+        int Mayor = -100;
+        Jugadores Ganador = null;
+        
+        //Va sumando las monedas del rio
+        for (int k = 0; k < jugadores.size(); k++) {
+            jugadores.get(k).setMonedas(jugadores.get(k).getMonedas() + jugadores.get(k).getPuntosRio());
+        }
+        //Va sumando las monedas por ficha solar
+        for (int k = 0; k < jugadores.size(); k++) {
+            jugadores.get(k).setMonedas(jugadores.get(k).getMonedas() + jugadores.get(k).getSolares());
+        }
+        
+        for (int k = 0; k < jugadores.size(); k++) {
+            if (jugadores.get(k).getMonedas() > Mayor) {
+                Mayor = jugadores.get(k).getMonedas();                            
+                Ganador = jugadores.get(k);
+            }                 
+        }
+        
+        return Ganador;
+        
+    }
     public void CrearLosetasRecolectores(int pos, int CantJugadores){
         
         //Crea las losetas de 1-1-1-1
@@ -138,7 +287,7 @@ public class Partida {
             jugadores.get(pos).getLosetasRecolectores().remove(0);
             jugadores.get(pos).getLosetasRecolectores().remove(3);
         }
-        
+       
         //Revuelve la baraja de losetas de selva
         Collections.shuffle(jugadores.get(pos).getLosetasRecolectores());
         
@@ -415,9 +564,9 @@ public class Partida {
                     }
                 }
                 else if(tablero[i][j].getTipo().equals("Solar")){
-                   /* if(jug.getSolares()<3){
+                    if(jug.getSolares()<3){
                         jug.setSolares(jug.getSolares()+1);
-                    }*/
+                    }
                 }
             }
         }
