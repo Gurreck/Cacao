@@ -206,6 +206,42 @@ class ClientHandler extends Thread
                         dos.writeUTF(toreturn);
                     }
                 }
+                else if(datos.getOperacion().equals("colocarLoseta")){
+                   
+                    boolean QuedanCartas = true;
+                    Jugadores jugador = gson.fromJson(gson.toJson(datos.getDatosOperacion().get(0)), Jugadores.class);
+                    //System.out.println(datos.getDatosOperacion().get(1)+" | " + datos.getDatosOperacion().get(2));
+                    
+                    if(datos.getDatosOperacion().get(3).equals("Recolector")){
+                        datos.getPartida().validarLosetaRecolector(jugador, (int)Math.round((double) datos.getDatosOperacion().get(1)), (int)Math.round((double) datos.getDatosOperacion().get(2)));
+                        
+                        if (datos.getDatosOperacion().get(4).equals("Pasar turno")) {
+                          datos.getPartida().PasarTurno();
+                        }
+                    }
+                    else{
+                        datos.getPartida().validarLosetaSelva((int)Math.round((double) datos.getDatosOperacion().get(1)), (int)Math.round((double) datos.getDatosOperacion().get(2)));
+                        datos.getPartida().PasarTurno();
+                    }                       
+                    
+                    QuedanCartas = datos.getPartida().QuedanLosetasRecolector(); //True si quedan cartas de recolectores por colocar
+                                                
+                    if (!QuedanCartas) {
+                        datos.getPartida().validarLosetaTemplo();
+                        Jugadores Ganador = datos.getPartida().PuntuacionFinal();
+                        datos.getPartida().setGanador(Ganador.getColor());
+                    }
+                    
+                    Globales.getInstance().partida = datos.getPartida();
+
+                    if (!QuedanCartas) {
+                        Globales.getInstance().partida.setIniciado(false);
+                        
+                        actualizarTodos("Fin de la partida");
+                    } else {
+                        actualizarTodos("Actualizar Juego");                    
+                    }                   
+                }
                 else if(datos.getOperacion().equals("colocarLosetaRecolector")){
                    
                     boolean QuedanCartas = true;

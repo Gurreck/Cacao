@@ -44,7 +44,6 @@ public class JuegoController extends Controller implements Initializable {
     private int columnCount = 0;
     private int rowCount = 0;
     
-    private int xSelva=0 , ySelva=0, xRecolector=0,Yrecolector=0;
     @FXML
     private StackPane root;
     @FXML
@@ -616,40 +615,34 @@ public class JuegoController extends Controller implements Initializable {
 
             if(nombreLosetaColocada.equals("loseta1Jugador")){
                 tablero[rowCount][columnCount] = losetasJugador.get(0);
-                xRecolector = rowCount; Yrecolector = columnCount;
                 losetasJugador.remove(losetasJugador.get(0));
                 recolectorColocado = true;
                 PasarTurno = ValidarCamposSelva();                
             }
             else if(nombreLosetaColocada.equals("loseta2Jugador")){
                 tablero[rowCount][columnCount] = losetasJugador.get(1);
-                xRecolector = rowCount; Yrecolector = columnCount;
                 losetasJugador.remove(losetasJugador.get(1));
                 recolectorColocado = true;
                 PasarTurno = ValidarCamposSelva();
             }
             else if(nombreLosetaColocada.equals("loseta3Jugador")){
                 tablero[rowCount][columnCount] = losetasJugador.get(2);
-                xRecolector = rowCount; Yrecolector = columnCount;
                 losetasJugador.remove(losetasJugador.get(2));
                 recolectorColocado = true;
                 PasarTurno = ValidarCamposSelva();
             }
             else if(nombreLosetaColocada.equals("losetaSelva1")){
                 tablero[rowCount][columnCount] = losetasSelva.get(0);
-                xSelva = rowCount; ySelva = columnCount;
                 losetasSelva.remove(losetasSelva.get(0));
                 recolectorColocado = false;
             }
             else if(nombreLosetaColocada.equals("losetaSelva2")){
                 tablero[rowCount][columnCount] = losetasSelva.get(1);
-                xSelva = rowCount; ySelva = columnCount;
                 losetasSelva.remove(losetasSelva.get(1));
                 recolectorColocado = false;
             }
             else{
                 tablero[rowCount][columnCount] = losetasSelva.get(2);
-                xSelva = rowCount; ySelva = columnCount;
                 losetasSelva.remove(losetasSelva.get(2));
                 recolectorColocado = false;
             }
@@ -664,37 +657,30 @@ public class JuegoController extends Controller implements Initializable {
             Globales.getInstance().partida.setBaraja_losetasSelva(losetasSelva);
             int pos = Globales.getInstance().partida.getJugadores().indexOf(jugador);
             Globales.getInstance().partida.getJugadores().get(pos).setLosetasRecolectores(losetasJugador);
+            List<Object> lstObject = new ArrayList<>();
+            lstObject.add(Globales.getInstance().jugador);
+            lstObject.add(rowCount);
+            lstObject.add(columnCount);
+            
+            if(tablero[rowCount][columnCount].getClasificacion().equals("Recolector")){
+                lstObject.add("Recolector");
+                System.out.println("Entre");
+            }else{
+                lstObject.add("Selva");
+            }
             
             if (PasarTurno.equals("Pasar turno")) {
-                List<Object> lstObject = new ArrayList<>();
                 recolectorColocado = false;
-                lstObject.add(Globales.getInstance().jugador);
-                lstObject.add(xRecolector);
-                lstObject.add(Yrecolector);
-
-                Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("colocarLosetaRecolector", lstObject, Globales.getInstance().partida));
-            }
-            else if(tablero[rowCount][columnCount].getClasificacion().equals("Selva")){
-                List<Object> lstObject = new ArrayList<>();
-                recolectorColocado = false;
-                lstObject.add(xSelva);
-                lstObject.add(ySelva);
-
-                Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("colocarLosetaSelva", lstObject, Globales.getInstance().partida));
-                
-                List<Object> lstObject2 = new ArrayList<>();
-                recolectorColocado = false;
-                lstObject2.add(Globales.getInstance().jugador);
-                lstObject2.add(xRecolector);
-                lstObject2.add(Yrecolector);
-
-                Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("colocarLosetaRecolector", lstObject2, Globales.getInstance().partida));
             }
             
+            lstObject.add(PasarTurno);
+            
+            Globales.getInstance().comunicacion.enviarMensajeServidor(new Transferencia("colocarLoseta", lstObject, Globales.getInstance().partida));
             losetaTemporal = null;
             losetaTemporalTablero = new Losetas();
             losetaColocada = false;
             nombreLosetaColocada = "";
         }
     }
+
 }
