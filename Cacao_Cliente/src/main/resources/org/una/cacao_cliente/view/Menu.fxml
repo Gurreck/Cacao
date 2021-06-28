@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.una.cacao_cliente.controllers.MenuController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="45.0" styleClass="Fondo" stylesheets="@../css/Style.css" StackPane.alignment="CENTER">
+         <children>
+            <Label text="Bienvenido a Cacao" textFill="WHITE">
+               <font>
+                  <Font name="Showcard Gothic" size="50.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label fx:id="lbl_nombre" text="Nombre:" textFill="WHITE">
+                     <font>
+                        <Font name="Showcard Gothic" size="28.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txt_nombre" prefHeight="29.0" prefWidth="194.0">
+                     <font>
+                        <Font name="Ebrima Bold" size="16.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" style="-fx-background-image: url(&quot;..\img\fondoMenu.jpg&quot;);">
+               <children>
+                  <Label fx:id="lbl_fecNac" prefHeight="100.0" text="Fecha Nacimiento:" textFill="WHITE">
+                     <font>
+                        <Font name="Showcard Gothic" size="28.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="date_fecNac" prefHeight="29.0" prefWidth="194.0" styleClass="letraMenu" stylesheets="@../css/Style.css" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label fx:id="lbl_colores" text="Colores:" textFill="WHITE">
+                     <font>
+                        <Font name="Showcard Gothic" size="28.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="combo_color" prefHeight="29.0" prefWidth="194.0" styleClass="letraMenu" stylesheets="@../css/Style.css" />
+               </children>
+            </HBox>
+            <Button fx:id="btn_jugar" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#btnJugarOnAction" prefHeight="86.0" prefWidth="207.0" style="-fx-background-color: none;">
+               <graphic>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/btn_jugar.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</StackPane>
